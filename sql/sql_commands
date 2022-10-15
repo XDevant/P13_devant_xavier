@@ -1,0 +1,89 @@
+migrations.RunSQL("""
+            INSERT INTO lettings_address (
+                id,
+                number,
+                city,
+                state,
+                zip_code,
+                country_iso_code
+            )
+            SELECT
+                id,
+                number,
+                city,
+                state,
+                zip_code,
+                country_iso_code
+            FROM
+                oc_lettings_site_address;
+        """, reverse_sql="""
+            INSERT INTO oc_lettings_site_address (
+                id,
+                number,
+                city,
+                state,
+                zip_code,
+                country_iso_code
+            )
+            SELECT
+                id,
+                number,
+                city,
+                state,
+                zip_code,
+                country_iso_code
+            FROM
+                lettings_address;
+        """)
+
+migrations.RunSQL("""
+            INSERT INTO lettings_letting (
+                id,
+                title,
+                address_id
+            )
+            SELECT
+                id,
+                title,
+                address
+            FROM
+                oc_lettings_site_letting;
+        """, reverse_sql="""
+            INSERT INTO oc_lettings_site_letting (
+                id,
+                title,
+                address_id
+            )
+            SELECT
+                id,
+                title,
+                address_id
+            FROM
+                lettings_letting;
+        """)
+
+migrations.RunSQL("""
+            INSERT INTO profiles_profile (
+                id,
+                title,
+                address_id
+            )
+            SELECT
+                id,
+                title,
+                address
+            FROM
+                oc_lettings_site_profile;
+        """, reverse_sql="""
+            INSERT INTO oc_lettings_site_profile (
+                id,
+                title,
+                address_id
+            )
+            SELECT
+                id,
+                favorite_city,
+                user_id
+            FROM
+                profiles_profile;
+        """)
