@@ -69,20 +69,20 @@ migrations.RunSQL("""
 migrations.RunSQL("""
             INSERT INTO profiles_profile (
                 id,
-                title,
-                address_id
+                favorite_city,
+                user_id
             )
             SELECT
                 id,
-                title,
-                address
+                favorite_city,
+                user_id
             FROM
                 oc_lettings_site_profile;
         """, reverse_sql="""
             INSERT INTO oc_lettings_site_profile (
                 id,
-                title,
-                address_id
+                favorite_city,
+                user_id
             )
             SELECT
                 id,
