@@ -49,7 +49,7 @@ migrations.RunSQL("""
             SELECT
                 id,
                 title,
-                address
+                address_id
             FROM
                 oc_lettings_site_letting;
         """, reverse_sql="""

@@ -17,3 +17,9 @@ class Address(models.Model):
         verbose_name_plural = "addresses"
 
 
+class Letting(models.Model):
+    title = models.CharField(max_length=256)
+    address = models.OneToOneField(Address, on_delete=models.CASCADE, related_name='letting_address')
+
+    def __str__(self):
+        return self.title
