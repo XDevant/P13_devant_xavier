@@ -1,7 +1,14 @@
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - 8000:8000
+    volumes:
+        - .:.
+    command: python manage.py runserver 0.0.0.0:8000
+
 steps:
-  - name: python
-    entrypoint: pip
-    args: [ "install", "-r", "requirements.txt", "--user" ]
   - name: python
     entrypoint: python
     args: [ "-m", "pytest", "--junitxml=${SHORT_SHA}_test_log.xml" ]
@@ -12,7 +19,7 @@ steps:
   - name: google/cloud-sdk
     args: [ 'gcloud', 'run', 'deploy', 'oc-lettings',
             '--image=europe-west9-docker.pkg.dev/${PROJECT_ID}/oc-lettings-repo/oc-lettings-image:tag1',
-            '--region', 'europe-west9', '--platform', 'managed',
+            '--region', 'europe-west9', '--platform', 'managed', '--port', '8080',
             '--allow-unauthenticated' ]
 artifacts:
   objects:
