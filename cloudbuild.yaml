@@ -1,7 +1,26 @@
-
-
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - 8000:8000
+    volumes:
+        - ./app:/app
+    command: python manage.py runserver 0.0.0.0:8000
+CMD [ "python", "-m", "venv"]
+CMD [ "pip"," install", "--upgrade", "pip" ]
+CMD ["pip", "install", "-r", "requirements.txt"]
 steps:
-  - name: python
+  - name: venv
+    entrypoint: python
+    args: [ "-m", "venv", "venv"]
+  - name: env
+    entrypoint: source
+    args: ["venv/bin/activate"]
+  - name: requirements
+    entrypoint: pip
+    args: [ "install", "-r", "requirements.txt", "--user" ]
+  - name: pytest
     entrypoint: python
     args: [ "-m", "pytest", "--junitxml=${SHORT_SHA}_test_log.xml" ]
   - name: 'gcr.io/cloud-builders/docker'
