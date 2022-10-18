@@ -1,15 +1,9 @@
 
 steps:
-  - name: venv
-    entrypoint: python
-    args: [ "-m", "venv", "venv"]
-  - name: env
-    entrypoint: source
-    args: ["venv/bin/activate"]
-  - name: requirements
+  - name: pip
     entrypoint: pip
     args: [ "install", "-r", "requirements.txt", "--user" ]
-  - name: pytest
+  - name: python
     entrypoint: python
     args: [ "-m", "pytest", "--junitxml=${SHORT_SHA}_test_log.xml" ]
   - name: 'gcr.io/cloud-builders/docker'
