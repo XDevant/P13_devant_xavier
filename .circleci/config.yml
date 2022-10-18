@@ -21,9 +21,35 @@ jobs:
       - run:
           name: Run tests
           command: pytest
+  build:
+    requires:
+      - test
+    filters:
+      branches:
+        only: main
+  build_in_cloud:
+    requires:
+      - test
+    filters:
+      branches:
+        only: cloud
 
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   regular:
     jobs:
       - test
+  heroku_docker_deploy:
+    jobs:
+      - test
+      - build
+      - heroku/deploy-via-git:
+          requires:
+            - build
+          filters:
+            branches:
+              only: main
+  google_cloud_deploy:
+    jobs:
+      - test
+      - build_in_cloud
