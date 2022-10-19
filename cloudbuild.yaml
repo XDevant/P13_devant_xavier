@@ -3,6 +3,8 @@ steps:
   - name: python
     entrypoint: pip
     args: [ "install", "-r", "requirements.txt", "--user" ]
+  - name: python
+    args: ["manage.py", "runserver", "8080:8000"]
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'build', '-t', 'europe-west9-docker.pkg.dev/$PROJECT_ID/oc-lettings-repo/oc-lettings-image:tag1', '.' ]
   - name: 'gcr.io/cloud-builders/docker'
