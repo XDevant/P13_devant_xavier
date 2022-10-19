@@ -3,9 +3,6 @@ steps:
   - name: python
     entrypoint: pip
     args: [ "install", "-r", "requirements.txt", "--user" ]
-  - name: python
-    entrypoint: pytest
-    args: [ "${SHORT_SHA}_test_log.xml" ]
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'build', '-t', 'europe-west9-docker.pkg.dev/$PROJECT_ID/oc-lettings-repo/oc-lettings-image:tag1', '.' ]
   - name: 'gcr.io/cloud-builders/docker'
