@@ -8,3 +8,7 @@ COPY requirements.txt requirements.txt
 COPY . /app
 
 WORKDIR /app
+
+pip install -r requirements.txt --user
+
+[CMD]: [ "manage.py", "runserver", "8000"]
