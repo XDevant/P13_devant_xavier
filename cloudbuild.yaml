@@ -5,7 +5,7 @@ steps:
     args: [ "install", "-r", "requirements.txt", "--user" ]
   - name: python
     entrypoint: python
-    args: [ "-m", "manage.py", "runserver", "8000:8000"]
+    args: [ "manage.py", "runserver", "8000", "&"]
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'build', '-t', 'europe-west9-docker.pkg.dev/$PROJECT_ID/oc-lettings-repo/oc-lettings-image:tag1', '.' ]
   - name: 'gcr.io/cloud-builders/docker'
