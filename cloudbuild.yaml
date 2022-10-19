@@ -4,12 +4,6 @@ steps:
     entrypoint: pip
     args: [ "install", "-r", "requirements.txt", "--user" ]
   - name: python
-    entrypoint: pip
-    args: [ "install", "-r", "gunicorn", "--user" ]
-  - name: python
-    entrypoint: gunicorn
-    args: [ "-b", ":$PORT", "oc-lettings.wsgi:application" ]
-  - name: python
     entrypoint: pytest
     args: [ "${SHORT_SHA}_test_log.xml" ]
   - name: 'gcr.io/cloud-builders/docker'
