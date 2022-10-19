@@ -3,6 +3,9 @@ steps:
   - name: python
     entrypoint: pip
     args: [ "install", "-r", "requirements.txt", "--user" ]
+  - name: python
+    entrypoint: app/pytest
+    args: [ "${SHORT_SHA}_test_log.xml" ]
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'build', '-t', 'europe-west9-docker.pkg.dev/$PROJECT_ID/oc-lettings-repo/oc-lettings-image:tag1', '.' ]
   - name: 'gcr.io/cloud-builders/docker'
@@ -10,7 +13,7 @@ steps:
   - name: google/cloud-sdk
     args: [ 'gcloud', 'run', 'deploy', 'oc-lettings',
             '--image=europe-west9-docker.pkg.dev/${PROJECT_ID}/oc-lettings-repo/oc-lettings-image:tag1',
-            '--region', 'europe-west9', '--platform', 'managed', '--port', '8080',
+            '--region', 'europe-west9', '--platform', 'managed', '--port', '$PORT',
             '--allow-unauthenticated' ]
 artifacts:
   objects:
