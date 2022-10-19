@@ -16,4 +16,4 @@ ENV PATH="/py/bin:$PATH"
 
 USER django-user
 
-CMD: [ "manage.py", "runserver", "8000"]
+CMD [ "manage.py", "runserver", "8000"]
