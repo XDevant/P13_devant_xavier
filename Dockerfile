@@ -7,3 +7,4 @@ COPY requirements.txt requirements.txt
 
 COPY . /app
 
+WORKDIR /app

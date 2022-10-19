@@ -13,7 +13,7 @@ steps:
   - name: google/cloud-sdk
     args: [ 'gcloud', 'run', 'deploy', 'oc-lettings',
             '--image=europe-west9-docker.pkg.dev/${PROJECT_ID}/oc-lettings-repo/oc-lettings-image:tag1',
-            '--region', 'europe-west9', '--platform', 'managed', '--port', '$PORT',
+            '--region', 'europe-west9', '--platform', 'managed', '--port', '8080',
             '--allow-unauthenticated' ]
 artifacts:
   objects:
