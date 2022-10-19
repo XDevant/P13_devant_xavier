@@ -16,4 +16,6 @@ ENV PATH="/py/bin:$PATH"
 
 USER django-user
 
+EXPOSE 8080
+
 CMD [ "pyton",  "manage.py", "runserver", "8080:8000" ]
