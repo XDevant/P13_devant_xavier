@@ -30,6 +30,7 @@ jobs:
   build_in_cloud:
     requires:
       - test
+      - flake
     filters:
       branches:
         only: cloud

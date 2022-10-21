@@ -2,20 +2,18 @@
 
 FROM python:3.10-slim-buster
 
-COPY requirements.txt requirements.txt
 
-COPY . /app
+COPY ./requirements.txt /requirements.txt
+RUN mkdir /oc-lettings
+COPY ./oc-lettings oc-lettings
+WORKDIR /oc-lettings
 
-WORKDIR /app
-RUN python -m venv /py
-RUN /py/bin/pip install --upgrade pip
-RUN /py/bin/pip install -r /requirements.txt
-RUN adduser --disabled-password --no-create-home django-user
+RUN python -m venv venv
+ENV VIRTUAL_ENV /venv
+ENV PATH /venv/bin:$PATH
+RUN pip install --upgrade pip
+RUN pip install -r /requirements.txt
 
-ENV PATH="/py/bin:$PATH"
+EXPOSE 8000
 
-USER django-user
-
-EXPOSE 8080
-
-CMD [ "pyton",  "manage.py", "runserver", "8080:8000" ]
+CMD [ "pyton", "manage.py", "runserver", "8000" ]
