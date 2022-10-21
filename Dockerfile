@@ -2,6 +2,7 @@
 
 FROM python:3.10-slim-buster
 
+ARG PATH
 
 COPY ./requirements.txt /requirements.txt
 RUN mkdir /oc-lettings

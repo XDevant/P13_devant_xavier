@@ -2,10 +2,13 @@ services:
   app:
     build:
       context: .
+      args:
+        PATH: $PATH
     ports:
       - "8000:8000"
     volumes:
       - ./oc-lettings:/oc-lettings
     command: "python manage.py runserver 0.0.0.0:8000"
     environment:
-      - DEBUG = 1
+      - DEBUG: 1
+      - PATH: $PATH
