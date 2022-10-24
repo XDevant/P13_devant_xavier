@@ -88,7 +88,7 @@ DATABASES_OLD = {
     }
 }
 
-DATABASES = {'default': dj_database_url.config(default='sqlite://oc-lettings-site.sqlite3')}
+DATABASES = {'default': dj_database_url.config(default="postgres://app:supermdp@db:5432/oc-lettings")}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

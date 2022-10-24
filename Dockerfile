@@ -4,14 +4,13 @@ FROM python:3.10-alpine3.16
 
 ENV PYTHONNUMBUFFERED 1
 
-COPY ./requirements.txt ./requirements.txt
-COPY ./db.json ./db.json
+COPY ./requirements.txt requirements.txt
 COPY ./oc-lettings oc-lettings
 WORKDIR /oc-lettings
 
 RUN python -m venv venv
-ENV VIRTUAL_ENV /venv \
-    PATH /venv/bin:$PATH
+ENV VIRTUAL_ENV /venv
+ENV PATH /venv/bin:$PATH
 
 RUN pip install --upgrade pip && \
     apk add --update --no-cache postgresql-client && \

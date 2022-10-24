@@ -1,6 +1,7 @@
 # oc-lettings
-*/migrations/0*.*
+*/*/migrations/0*.*
 test.env
+**/*.sqlite3
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
