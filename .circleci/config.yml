@@ -33,9 +33,6 @@ jobs:
       - run:
           name: Run flake8
           command: python -m flake8 oc-lettings
-    filters:
-      branches:
-        only: main
 
   build_test_image:
     executor: docker
@@ -45,12 +42,19 @@ jobs:
 
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
+
   regular:
     jobs:
       - testing
+
   docker_test:
     jobs:
-      - linting
+      - linting:
+          filters:
+            branches:
+              only:
+                - master
+
       - testing:
           requires:
             - linting
