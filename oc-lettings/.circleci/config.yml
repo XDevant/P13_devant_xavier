@@ -8,8 +8,8 @@ orbs:
 
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  test: # https://circleci.com/docs/2.0/executor-types/
-    # https://circleci.com/developer/images/image/cimg/python
+  testing:
+    # https://circleci.com/docs/2.0/executor-types/
     docker:
       - image: cimg/python:3.10.2
     steps:
@@ -39,18 +39,28 @@ jobs:
 workflows:
   regular:
     jobs:
-      - test
-  heroku_docker_deploy:
+      - testing
+  docker_test:
     jobs:
-      - test
-      - build
-      - heroku/deploy-via-git:
+      - testing
+      - build_test_image:
           requires:
-            - build
-          filters:
-            branches:
-              only: main
-  google_cloud_deploy:
+            - testing
+      - testing_functional:
+          requires:
+            - build_test_image
+  heroku_deployment:
     jobs:
-      - test
-      - build_in_cloud
+      - linting
+        filters:
+          branches:
+            only: main
+      - testing:
+          requires:
+              - linting
+      - build_heroku_image:
+          requires:
+              - testing
+      - heroku_deploy:
+          requires:
+            - build_heroku_image

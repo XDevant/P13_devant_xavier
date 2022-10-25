@@ -2,9 +2,23 @@ import os
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 import dj_database_url
+import environ
+
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+IS_HEROKU = "DYNO" in os.environ
+
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 sentry_sdk.init(
-    dsn="https://19dc4cfc565f4f36bad78168c9e7a646@o4503968575586304.ingest.sentry.io/4503968578404352",
+    dsn=env("SENTRY_DNS"),
     integrations=[
         DjangoIntegration(),
     ],
@@ -17,20 +31,20 @@ sentry_sdk.init(
     send_default_pii=True
 )
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'Change me !')
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(int(os.environ.get('DEBUG', 0)))
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+if IS_HEROKU:
+    DEBUG = False
+    ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -81,14 +95,14 @@ WSGI_APPLICATION = 'oc_lettings.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 
-DATABASES_OLD = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'oc-lettings-site.sqlite3'),
     }
 }
-
-DATABASES = {'default': dj_database_url.config(default="postgres://app:supermdp@db:5432/oc-lettings")}
+if IS_HEROKU or os.environ.get('DATABASE_URL', None):
+    DATABASES = {'default': dj_database_url.config()}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
