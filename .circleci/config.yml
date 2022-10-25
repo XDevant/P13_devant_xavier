@@ -38,6 +38,24 @@ jobs:
     steps:
       - checkout
 
+  testing_functional:
+    docker:
+      - image: cimg/python:lts
+    steps:
+      - checkout
+
+  build_heroku_image:
+    docker:
+      - image: cimg/python:lts
+    steps:
+      - checkout
+
+  heroku_deploy:
+    docker:
+      - image: cimg/python:lts
+    steps:
+      - checkout
+
 
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
