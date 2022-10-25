@@ -33,6 +33,9 @@ jobs:
       - run:
           name: Run flake8
           command: python -m flake8 oc-lettings
+    filters:
+      branches:
+        only: main
 
   build_test_image:
     executor: docker
@@ -48,9 +51,6 @@ workflows:
   docker_test:
     jobs:
       - linting
-        filters:
-            branches:
-              only: main
       - testing:
           requires:
             - linting
