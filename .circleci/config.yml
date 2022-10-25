@@ -72,12 +72,28 @@ workflows:
           requires:
             - testing
             - linting
+          filters:
+            branches:
+              only:
+                - master
       - testing_functional:
           requires:
             - build_test_image
+          filters:
+            branches:
+              only:
+                - master
       - build_heroku_image:
+          filters:
+            branches:
+              only:
+                - master
           requires:
               - testing_functional
       - heroku_deploy:
+          filters:
+            branches:
+              only:
+                - master
           requires:
             - build_heroku_image
