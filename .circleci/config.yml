@@ -47,25 +47,22 @@ workflows:
       - testing
   docker_test:
     jobs:
-      - testing
+      - linting
+        filters:
+            branches:
+              only: main
+      - testing:
+          requires:
+            - linting
       - build_test_image:
           requires:
             - testing
       - testing_functional:
           requires:
             - build_test_image
-  heroku_deployment:
-    jobs:
-      - linting
-        filters:
-          branches:
-            only: main
-      - testing:
-          requires:
-              - linting
       - build_heroku_image:
           requires:
-              - testing
+              - testing_functional
       - heroku_deploy:
           requires:
             - build_heroku_image
