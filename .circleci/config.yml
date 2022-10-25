@@ -13,11 +13,9 @@ jobs:
     # https://circleci.com/docs/2.0/executor-types/
     executor: python/default
     steps:
-      - checkout # checkout source code
+      - checkout
       - python/install-packages:
           pkg-manager: pip
-          # app-dir: ~/project/package-directory/  # If you're requirements.txt isn't in the root directory.
-          # pip-dependency-file: test-requirements.txt
       - run:
           name: Run tests
           command: python -m pytest oc-lettings
