@@ -35,7 +35,8 @@ jobs:
           command: python -m flake8 oc-lettings
 
   build_test_image:
-    executor: docker
+    docker:
+      - image: cimg/python:lts
     steps:
       - checkout
 
@@ -47,20 +48,18 @@ workflows:
     jobs:
       - testing
 
-  docker_test:
+  docker:
     jobs:
       - linting:
           filters:
             branches:
               only:
                 - master
-
       - testing:
-          requires:
-            - linting
       - build_test_image:
           requires:
             - testing
+            - linting
       - testing_functional:
           requires:
             - build_test_image
