@@ -10,7 +10,9 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=$TEST_DATABASE_URL
+      - DATABASE_URL=$DATABASE_URL
+      - SENTRY_DNS=$SENTRY_DNS
+      - DEBUG=1
     depends_on:
       - db
 
