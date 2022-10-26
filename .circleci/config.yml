@@ -66,8 +66,10 @@ jobs:
     machine:
       image: ubuntu-2204:2022.04.2
     environment:
-      DATABASE_URL: "postgres://root:password@db:5432/circleci_test"
-      POSTGRES_USER: root
+      DEBUG: 1
+      SENTRY_DNS: $SENTRY_DNS
+      DATABASE_URL: "postgres://marcel:password@db:5432/circleci_test"
+      POSTGRES_USER: marcel
       POSTGRES_DB: circleci_test
       POSTGRES_PASSWORD: password
     steps:
