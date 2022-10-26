@@ -42,14 +42,14 @@ jobs:
     docker:
       - image: xevan/oc-lettings-repo:$CIRCLE_SHA1
         <<: *docker-auth
-      environment:
-        DATABASE_URL: "postgres://app:supermdp@db:5432/oc-lettings"
-        USE_DOCKER: no
+        environment:
+          DATABASE_URL: "postgres://app:supermdp@db:5432/oc-lettings"
+          USE_DOCKER: no
       - image: cimg/postgres:14.1:lts
         <<: *docker-auth
-      environment:
-        POSTGRES_USER: app
-        POSTGRES_DB: oc-lettings
+        environment:
+          POSTGRES_USER: app
+          POSTGRES_DB: oc-lettings
     steps:
       - checkout
 
