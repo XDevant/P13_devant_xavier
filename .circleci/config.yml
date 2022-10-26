@@ -66,9 +66,10 @@ jobs:
     machine:
       image: ubuntu-2204:2022.04.2
     environment:
-      DATABASE_URL: "postgres://root@db:5432/circleci_test"
+      DATABASE_URL: "postgres://root:password@db:5432/circleci_test"
       POSTGRES_USER: root
       POSTGRES_DB: circleci_test
+      POSTGRES_PASSWORD: password
     steps:
         - checkout
         - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
