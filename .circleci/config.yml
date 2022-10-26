@@ -1,16 +1,22 @@
-# https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-# Orbs: https://circleci.com/docs/2.0/orb-intro/
 orbs:
-  #  https://circleci.com/developer/orbs/orb/circleci/python
   python: circleci/python@2.1.1
 
+docker-auth: &docker-auth
+  auth:
+    username: $DOCKERHUB_USERNAME
+    password: $DOCKERHUB_PASSWORD
 
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+heroku-auth: &heroku-auth
+  auth:
+    url: registry.heroku.com
+    username: $HEROKU_EMAIL
+    email: $HEROKU_EMAIL
+    password: $HEROKU_PASSWORD
+
 jobs:
-  testing:
-    # https://circleci.com/docs/2.0/executor-types/
+  test:
     executor: python/default
     steps:
       - checkout
@@ -20,7 +26,7 @@ jobs:
           name: Run tests
           command: python -m pytest oc-lettings
 
-  linting:
+  lint:
     executor: python/default
     steps:
       - checkout
@@ -32,68 +38,96 @@ jobs:
           name: Run flake8
           command: python -m flake8 oc-lettings
 
-  build_test_image:
+  build_and_test:
     docker:
-      - image: cimg/python:lts
+      - image: xevan/oc-lettings-repo:$CIRCLE_SHA1
+        <<: *docker-auth
+      environment:
+        DATABASE_URL: "postgres://app:supermdp@db:5432/oc-lettings"
+        USE_DOCKER: no
+      - image: cimg/postgres:14.1:lts
+        <<: *docker-auth
+      environment:
+        POSTGRES_USER: app
+        POSTGRES_DB: oc-lettings
     steps:
       - checkout
 
-  testing_functional:
-    docker:
-      - image: cimg/python:lts
+  build:
+    machine:
+      image: ubuntu-2204:2022.04.2
     steps:
-      - checkout
+        - checkout
+        - run: |
+          echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
+          docker build -t xevan/oc-lettings-repo:$CIRCLE_SHA1 .
+        - run: docker push xevan/oc-lettings-repo:$CIRCLE_SHA1
 
-  build_heroku_image:
-    docker:
-      - image: cimg/python:lts
+  compose_and_test:
+    machine:
+      image: ubuntu-2204:2022.04.2
+      environment:
+        DATABASE_URL: "postgres://app:supermdp@db:5432/oc-lettings"
+        POSTGRES_USER: app
+        POSTGRES_DB: oc-lettings
     steps:
-      - checkout
+        - checkout
+        - run: |
+          echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
+          docker compose up
 
   heroku_deploy:
     docker:
-      - image: cimg/python:lts
+      - image: xevan/oc-lettings-repo:$CIRCLE_SHA1
+      <<: *docker-auth
     steps:
       - checkout
+      - run: |
+          echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
+          docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
+          docker tag xevan/oc-lettings-repo:$CIRCLE_SHA1 release
+          docker push release
+          heroku container:release web release
 
 
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-
-  docker:
+  base:
     jobs:
-      - testing
-      - linting:
+      - test
+      - lint:
           filters:
             branches:
               only:
                 - master
-      - build_test_image:
+                - dev
+      - build:
           requires:
-            - testing
-            - linting
+            - test
+            - lint
           filters:
             branches:
               only:
                 - master
-      - testing_functional:
+      - compose_and_test:
           requires:
-            - build_test_image
+            - build
           filters:
             branches:
               only:
                 - master
-      - build_heroku_image:
-          filters:
-            branches:
-              only:
-                - master
-          requires:
-              - testing_functional
       - heroku_deploy:
           filters:
             branches:
               only:
                 - master
           requires:
-            - build_heroku_image
+            - compose_and_test
+  test:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - circleci-project-setup
+
