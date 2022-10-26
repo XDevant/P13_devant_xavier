@@ -25,4 +25,4 @@ EXPOSE $PORT
 
 USER app
 
-CMD gunicorn oc-lettings.wsgi:application --bind $PORT
+CMD ./init.sh && gunicorn oc-lettings.wsgi:application --bind $PORT
