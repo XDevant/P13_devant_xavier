@@ -66,10 +66,9 @@ jobs:
     machine:
       image: ubuntu-2204:2022.04.2
     environment:
-      DATABASE_URL: "postgres://app:supermdp@db:5432/oc-lettings"
-      POSTGRES_USER: app
-      POSTGRES_DB: oc-lettings
-      POSTGRES_PASSWORD: supermdp
+      DATABASE_URL: "postgres://root@db:5432/circleci_test"
+      POSTGRES_USER: root
+      POSTGRES_DB: circleci_test
     steps:
         - checkout
         - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
@@ -82,7 +81,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
+          echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
           docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
           docker tag xevan/oc-lettings-repo:$CIRCLE_SHA1 release
           heroku push release

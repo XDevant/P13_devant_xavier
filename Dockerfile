@@ -18,11 +18,11 @@ RUN pip install --upgrade pip && \
         build-base postgresql-dev musl-dev linux-headers && \
     pip install -r requirements.txt && \
     apk del .tmp-deps && \
-    adduser --disabled-password --no-create-home app && \
+    adduser --disabled-password --no-create-home circleci && \
     chown -R app .
 
 EXPOSE $PORT
 
-USER app
+USER circleci
 
 CMD ./init.sh && gunicorn oc-lettings.wsgi:application --bind $PORT
