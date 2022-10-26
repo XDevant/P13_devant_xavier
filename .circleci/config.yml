@@ -65,10 +65,10 @@ jobs:
   compose_and_test:
     machine:
       image: ubuntu-2204:2022.04.2
-      environment:
-        DATABASE_URL: "postgres://app:supermdp@db:5432/oc-lettings"
-        POSTGRES_USER: app
-        POSTGRES_DB: oc-lettings
+    environment:
+      DATABASE_URL: "postgres://app:supermdp@db:5432/oc-lettings"
+      POSTGRES_USER: app
+      POSTGRES_DB: oc-lettings
     steps:
         - checkout
         - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
