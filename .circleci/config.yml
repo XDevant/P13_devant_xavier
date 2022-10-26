@@ -76,7 +76,7 @@ jobs:
         - checkout
         - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
         - run: docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
-        - run: docker compose run -e SENTRY_DNS=$SENTRY_DNS DEBUG app python manage.py collectstatic
+        - run: docker compose run -e SENTRY_DNS=$SENTRY_DNS -e DATABASE_URL="postgres://marcel:password@db:5432/circleci_test" app python --help
         - run: docker compose up
 
   heroku_deploy:
