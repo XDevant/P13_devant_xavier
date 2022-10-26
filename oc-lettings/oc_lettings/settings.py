@@ -18,7 +18,7 @@ IS_HEROKU = "DYNO" in os.environ
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 sentry_sdk.init(
-    dsn=env("SENTRY_DNS"),
+    dsn=os.environ.get("SENTRY_DNS", env("SENTRY_DNS")),
     integrations=[
         DjangoIntegration(),
     ],
@@ -35,10 +35,10 @@ sentry_sdk.init(
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.environ.get("SENTRY_DNS", env('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = os.environ.get('DEBUG', env('DEBUG'))
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
