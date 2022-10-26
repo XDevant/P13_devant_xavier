@@ -19,7 +19,7 @@ RUN pip install --upgrade pip && \
     pip install -r requirements.txt && \
     apk del .tmp-deps && \
     adduser --disabled-password --no-create-home circleci && \
-    chown -R app .
+    chown -R circleci .
 
 EXPOSE $PORT
 
