@@ -71,9 +71,8 @@ jobs:
         POSTGRES_DB: oc-lettings
     steps:
         - checkout
-        - run: |
-          echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
-          docker compose up
+        - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
+        - run: docker compose up
 
   heroku_deploy:
     docker:
