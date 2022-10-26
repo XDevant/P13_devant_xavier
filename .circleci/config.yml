@@ -75,9 +75,8 @@ jobs:
         - run: docker compose up
 
   heroku_deploy:
-    docker:
-      - image: xevan/oc-lettings-repo:$CIRCLE_SHA1
-      <<: *docker-auth
+    machine:
+      image: ubuntu-2204:2022.04.2
     steps:
       - checkout
       - run: |
