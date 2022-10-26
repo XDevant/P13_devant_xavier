@@ -58,7 +58,7 @@ jobs:
       image: ubuntu-2204:2022.04.2
     steps:
         - checkout
-        - run: docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
+        - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
         - run: docker build -t xevan/oc-lettings-repo:$CIRCLE_SHA1 .
         - run: docker push xevan/oc-lettings-repo:$CIRCLE_SHA1
 
@@ -73,6 +73,7 @@ jobs:
     steps:
         - checkout
         - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
+        - run: docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
         - run: docker compose up
 
   heroku_deploy:
@@ -84,7 +85,7 @@ jobs:
           echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
           docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
           docker tag xevan/oc-lettings-repo:$CIRCLE_SHA1 release
-          docker push release
+          heroku push release
           heroku container:release web release
 
 
