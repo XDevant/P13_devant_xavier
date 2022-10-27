@@ -54,18 +54,18 @@ jobs:
           POSTGREST_PASSWORD: somemdp
           PORT: 5000
         <<: *docker-auth
-    working_directory: ~/projects/oc-lettings
+    working_directory: oc-lettings
     steps:
       - checkout
       - run:
           name: Init Bd
-          command: python manage.py init
+          command: python oc-lettings/manage.py init
       - run:
           name: Test
-          command: python -m pytest
+          command: python -m pytest oc-lettings
       - run:
           name: Start Serveur
-          command: gunicorn oc-lettings.wsgi:application --bind $PORT
+          command: gunicorn oc-lettings.oc-lettings.wsgi:application --bind $PORT
 
 
   build:
