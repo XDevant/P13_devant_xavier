@@ -10,7 +10,7 @@ RUN adduser --disabled-password circleci
 USER circleci
 
 COPY ./oc-lettings home/circleci/oc-lettings
-WORKDIR /home/circlecioc-lettings
+WORKDIR /home/circleci/oc-lettings
 
 RUN python -m venv venv && \
     . venv/bin/activate && \
