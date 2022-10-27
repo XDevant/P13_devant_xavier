@@ -5,8 +5,8 @@ FROM python:3.10-alpine3.16
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONNUMBUFFERED 1
 
-COPY ./oc-lettings ./home/circleci/oc-lettings
-WORKDIR /home/circleci/oc-lettings
+COPY ./oc-lettings ./oc-lettings
+WORKDIR /oc-lettings
 
 
 RUN python -m venv venv && \
@@ -18,7 +18,9 @@ RUN python -m venv venv && \
     pip install -r requirements.txt && \
     apk del .tmp-deps && \
     adduser --disabled-password CircleCI && \
-    chown -R CircleCI ..
+    chown -R home/CircleCI .  && \
+    chown -R . .
+
 
 EXPOSE $PORT
 
