@@ -50,7 +50,7 @@ jobs:
       - image: cimg/postgres:14.1
         environment:
           POSTGRES_USER: app
-          POSTGRES_NAME: oc-lettings
+          POSTGRES_DB: oc-lettings
           POSTGREST_PASSWORD: somemdp
         <<: *docker-auth
     steps:
