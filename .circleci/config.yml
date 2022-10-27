@@ -62,9 +62,10 @@ jobs:
       - run:
           name: Test
           command: python -m pytest oc-lettings
+      - run: ls
       - run:
           name: Start Serveur
-          command: gunicorn oc-lettings.wsgi:application --bind=$PORT
+          command: gunicorn oc-lettings.oc-lettings.wsgi:application --bind=$PORT
 
 
   build:
@@ -141,11 +142,6 @@ workflows:
             - compose_and_test
   test:
     jobs:
-      - build:
-          filters:
-            branches:
-              only:
-                - circleci-project-setup
       - compose_and_test:
           requires:
             - build
