@@ -47,7 +47,7 @@ jobs:
           SENTRY_DNS: $SENTRY_DNS
           DATABASE_URL: postgresql://postgres@localhost/circle_test
           USE_DOCKER: no
-      - image: cimg/postgres:14.1:lts
+      - image: cimg/postgres:14.1
         environment:
           POSTGRES_USER: postgres
         <<: *docker-auth
