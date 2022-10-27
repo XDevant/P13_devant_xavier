@@ -53,6 +53,7 @@ jobs:
           POSTGRES_DB: circle_test
           POSTGREST_PASSWORD: somemdp
         <<: *docker-auth
+    working_directory: /oc-lettings
     steps:
       - checkout
       - run:
