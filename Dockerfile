@@ -19,10 +19,10 @@ RUN python -m venv venv && \
     apk del .tmp-deps && \
     adduser --disabled-password CircleCI && \
     chown -R CircleCI .. && \
-    chmod +x init.sh && \
-    chmod -R 755 .
 
 EXPOSE $PORT
+
+ENV PATH=/venv/bin:$PATH
 
 USER CircleCI
 
