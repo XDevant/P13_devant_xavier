@@ -5,7 +5,7 @@ FROM python:3.10-alpine3.16
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONNUMBUFFERED 1
 
-RUN adduser --disabled-password circleci && chown -R circleci ./home/circleci
+RUN adduser --disabled-password circleci && chown -R circleci ./home/circleci && chmod -R 755 ./home/circleci
 
 USER circleci
 
