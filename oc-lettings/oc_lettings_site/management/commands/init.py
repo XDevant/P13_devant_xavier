@@ -23,4 +23,4 @@ class Command(BaseCommand):
         # call_command('collectstatic', '--noinput')
         call_command('makemigrations')
         call_command('migrate', '--run-syncdb')
-        call_command('loaddata', 'db.json')
+        call_command('loaddata', 'oc-lettings/db.json')
