@@ -17,13 +17,13 @@ RUN python -m venv venv && \
         build-base postgresql-dev musl-dev linux-headers && \
     pip install -r requirements.txt && \
     apk del .tmp-deps && \
-    adduser --disabled-password circleci && \
-    chown -R circleci .. && \
+    adduser --disabled-password CircleCI && \
+    chown -R CircleCI .. && \
     chmod +x init.sh && \
     chmod -R 755 .
 
 EXPOSE $PORT
 
-USER circleci
+USER CircleCI
 
 CMD init.sh && gunicorn oc-lettings.wsgi:application --bind $PORT
