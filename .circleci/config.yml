@@ -45,12 +45,12 @@ jobs:
         environment:
           DEBUG: 1
           SENTRY_DNS: $SENTRY_DNS
-          DATABASE_URL: "postgres://app:somemdp@0.0.0.0:5432/oc-lettings"
+          DATABASE_URL: "postgres://app:somemdp@localhost:5432/circle_test?sslmode=disable"
           USE_DOCKER: no
       - image: cimg/postgres:14.1
         environment:
           POSTGRES_USER: app
-          POSTGRES_DB: oc-lettings
+          POSTGRES_DB: circle_test
           POSTGREST_PASSWORD: somemdp
         <<: *docker-auth
     steps:
