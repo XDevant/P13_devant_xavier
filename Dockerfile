@@ -5,10 +5,9 @@ FROM python:3.10-alpine3.16
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONNUMBUFFERED 1
 
-RUN adduser --disabled-password circleci && chown -R circleci ./home/circleci && chmod -R 755 ./home/circleci
-
 COPY ./oc-lettings ./home/circleci/oc-lettings
 WORKDIR /home/circleci/oc-lettings
+
 
 RUN python -m venv venv && \
     . venv/bin/activate && \
@@ -18,7 +17,9 @@ RUN python -m venv venv && \
         build-base postgresql-dev musl-dev linux-headers && \
     pip install -r requirements.txt && \
     apk del .tmp-deps && \
-    chmod -R +x init.sh
+    chmod -R +x oc-lettings/init.sh
+
+RUN adduser --disabled-password circleci && chown -R circleci .. && chmod -R 755 ..
 
 EXPOSE $PORT
 
