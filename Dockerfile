@@ -18,7 +18,7 @@ RUN python -m venv venv && \
     pip install -r requirements.txt && \
     apk del .tmp-deps && \
     adduser --disabled-password CircleCI && \
-    chown -R CircleCI .. && \
+    chown -R CircleCI ..
 
 EXPOSE $PORT
 
