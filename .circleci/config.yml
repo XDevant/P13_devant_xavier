@@ -142,7 +142,14 @@ workflows:
             - compose_and_test
   test:
     jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - circleci-project-setup
       - compose_and_test:
+          requires:
+            - build
           filters:
             branches:
               only:
