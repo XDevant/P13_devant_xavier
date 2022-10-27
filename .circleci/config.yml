@@ -54,7 +54,7 @@ jobs:
           POSTGREST_PASSWORD: somemdp
           PORT: 5000
         <<: *docker-auth
-    working_directory: oc-lettings
+    working_directory: ~/oc-lettings
     steps:
       - checkout
       - run:
