@@ -1,5 +1,5 @@
 # oc-lettings
-oc-lettings/**/migrations/0*.*
+oc-lettings/*/migrations/0*.*
 test.env
 **/*.sqlite3
 
