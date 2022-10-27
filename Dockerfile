@@ -24,7 +24,7 @@ RUN python -m venv venv && \
 
 EXPOSE $PORT
 
-ENV PATH=/venv/bin:$PATH
+ENV PATH=venv/bin:$PATH
 
 USER CircleCI
 
