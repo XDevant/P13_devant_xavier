@@ -143,8 +143,6 @@ workflows:
   test:
     jobs:
       - compose_and_test:
-          requires:
-            - build
           filters:
             branches:
               only:
