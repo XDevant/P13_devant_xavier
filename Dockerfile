@@ -19,7 +19,7 @@ RUN python -m venv venv && \
     apk del .tmp-deps && \
     adduser --disabled-password circleci && \
     chown -R circleci .. && \
-    chmod +x init.sh
+    chmod 777 +x init.sh
 
 EXPOSE $PORT
 
