@@ -5,6 +5,8 @@ FROM python:3.10-alpine3.16
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONNUMBUFFERED 1
 
+USER root
+
 COPY ./oc-lettings ./oc-lettings
 WORKDIR /oc-lettings
 
