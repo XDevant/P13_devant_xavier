@@ -50,6 +50,7 @@ jobs:
       - image: cimg/postgres:14.1
         environment:
           POSTGRES_USER: postgres
+          POSTGRES_NAME: oc-lettings
         <<: *docker-auth
     steps:
       - checkout
