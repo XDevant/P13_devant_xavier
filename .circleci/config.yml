@@ -55,7 +55,7 @@ jobs:
       - checkout
       - run:
           name: Init Bd
-          command: ./init.sh
+          command: ./oc-lettings/init.sh
       - run:
           name: Test
           command: python -m pytest oc-lettings
