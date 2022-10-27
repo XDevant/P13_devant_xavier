@@ -7,8 +7,6 @@ ENV PYTHONNUMBUFFERED 1
 
 RUN adduser --disabled-password circleci && chown -R circleci ./home/circleci && chmod -R 755 ./home/circleci
 
-USER circleci
-
 COPY ./oc-lettings ./home/circleci/oc-lettings
 WORKDIR /home/circleci/oc-lettings
 
@@ -23,5 +21,7 @@ RUN python -m venv venv && \
     chmod -R +x init.sh
 
 EXPOSE $PORT
+
+USER circleci
 
 CMD ./init.sh && gunicorn oc-lettings.wsgi:application --bind $PORT
