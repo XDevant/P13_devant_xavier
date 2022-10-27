@@ -17,7 +17,7 @@ RUN python -m venv venv && \
         build-base postgresql-dev musl-dev linux-headers && \
     pip install -r requirements.txt && \
     apk del .tmp-deps && \
-    chmod -R +x oc-lettings/init.sh
+    chmod -R +x init.sh
 
 RUN adduser --disabled-password circleci && chown -R circleci .. && chmod -R 755 ..
 
