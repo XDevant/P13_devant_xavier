@@ -65,7 +65,7 @@ jobs:
           command: python -m pytest oc-lettings
       - run:
           name: Start Serveur
-          command: oc-lettings/gunicorn oc-lettings.oc-lettings.wsgi:application --bind=$PORT
+          command: gunicorn oc-lettings.oc-lettings.wsgi:application --bind=$PORT
 
 
   build:
