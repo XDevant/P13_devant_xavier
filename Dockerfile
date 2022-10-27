@@ -11,8 +11,8 @@ COPY ./oc-lettings ./oc-lettings
 WORKDIR /oc-lettings
 
 
-RUN python -m venv venv && \
-    . venv/bin/activate && \
+RUN python -m venv /py && \
+    . /py/bin/activate && \
     pip install --upgrade pip && \
     apk add --update --no-cache postgresql-client && \
     apk add --update --no-cache --virtual .tmp-deps \
@@ -26,7 +26,7 @@ RUN python -m venv venv && \
 
 EXPOSE $PORT
 
-ENV PATH=venv/bin:$PATH
+ENV PATH=/py/bin:$PATH
 
 USER CircleCI
 
