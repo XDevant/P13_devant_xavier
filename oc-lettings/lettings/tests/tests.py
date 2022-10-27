@@ -11,7 +11,7 @@ class TestLettingsIndexView(TestCase):
                                                    city='Paris',
                                                    state="dirty",
                                                    zip_code="200",
-                                                   country_iso_code="033")
+                                                   country_iso_code="33")
         self.test_address.save()
         self.test_letting = Letting.objects.create(title="TEST",
                                                    address=self.test_address)
@@ -56,7 +56,7 @@ class TestLettingView(TestCase):
                                                    city='Paris',
                                                    state="dirty",
                                                    zip_code="200",
-                                                   country_iso_code="033")
+                                                   country_iso_code="33")
         self.test_address.save()
         self.test_letting = Letting.objects.create(title="TEST",
                                                    address=self.test_address)
