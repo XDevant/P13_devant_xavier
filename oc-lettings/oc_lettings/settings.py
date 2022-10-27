@@ -102,7 +102,8 @@ DATABASES = {
     }
 }
 if IS_HEROKU or os.environ.get('DATABASE_URL', None):
-    DATABASES = {'default': dj_database_url.config()}
+    DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
+    DATABASES['default']['TEST'] = dj_database_url.parse("postgresql://postgres@localhost/circle_test")
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -142,3 +143,4 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/vol/web/static'

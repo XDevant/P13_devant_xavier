@@ -7,6 +7,8 @@ services:
     pull_policy: build
     restart: always
     image: xevan/oc-lettings-repo
+    volumes:
+      - static-data:/vol/web
     ports:
       - "8000:8000"
     environment:
@@ -30,4 +32,4 @@ services:
 
 volumes:
   postgres-data:
-
+  static-data:
