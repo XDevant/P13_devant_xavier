@@ -55,7 +55,7 @@ jobs:
       - checkout
       - run:
           name: Init Bd
-          command: . /venv/bin/activate && python oc-lettings/manage.py init
+          command: python oc-lettings/manage.py init
       - run:
           name: Test
           command: python -m pytest oc-lettings
