@@ -26,4 +26,4 @@ EXPOSE $PORT
 
 USER CircleCI
 
-CMD init.sh && gunicorn oc-lettings.wsgi:application --bind $PORT
+CMD whoami && init.sh && gunicorn oc-lettings.wsgi:application --bind $PORT
