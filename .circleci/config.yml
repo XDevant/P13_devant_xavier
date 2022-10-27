@@ -45,7 +45,7 @@ jobs:
         environment:
           DEBUG: 1
           SENTRY_DNS: $SENTRY_DNS
-          DATABASE_URL: "postgres://app:dbmdp@db:5432/oc-lettings"
+          DATABASE_URL: "postgres://app:dbmdp@localhost:5432/oc-lettings"
           USE_DOCKER: no
       - image: cimg/postgres:14.1
         environment:
