@@ -38,20 +38,28 @@ jobs:
           name: Run flake8
           command: python -m flake8 oc-lettings
 
-  build_and_test:
+  compose_and_test:
     docker:
       - image: xevan/oc-lettings-repo:$CIRCLE_SHA1
         <<: *docker-auth
         environment:
-          DATABASE_URL: "postgres://app:supermdp@db:5432/oc-lettings"
+          DEBUG: 1
+          SENTRY_DNS: $SENTRY_DNS
+          DATABASE_URL: postgresql://postgres@localhost/circle_test
           USE_DOCKER: no
       - image: cimg/postgres:14.1:lts
-        <<: *docker-auth
         environment:
-          POSTGRES_USER: app
-          POSTGRES_DB: oc-lettings
+          POSTGRES_USER: postgres
+        <<: *docker-auth
     steps:
       - checkout
+      - run:
+          name: Init Bd
+          command: ./init.sh
+      - run:
+          name: Test
+          command: python -m pytest oc-lettings
+
 
   build:
     machine:
@@ -62,7 +70,7 @@ jobs:
         - run: docker build -t xevan/oc-lettings-repo:$CIRCLE_SHA1 .
         - run: docker push xevan/oc-lettings-repo:$CIRCLE_SHA1
 
-  compose_and_test:
+  x_and_test:
     machine:
       image: ubuntu-2204:2022.04.2
     environment:
