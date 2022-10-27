@@ -20,7 +20,7 @@ RUN python -m venv venv && \
     adduser --disabled-password circleci && \
     chown -R circleci .. && \
     chmod +x init.sh && \
-    chmod 777 init.sh
+    chmod -R 755 .
 
 EXPOSE $PORT
 
