@@ -30,4 +30,4 @@ ENV PATH=/py/bin:$PATH
 
 USER CircleCI
 
-CMD python manage.py init && gunicorn oc-lettings.wsgi:application --bind $PORT
+CMD python manage.py init && gunicorn oc-lettings.wsgi:application --bind=$PORT
