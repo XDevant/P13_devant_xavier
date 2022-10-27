@@ -5,11 +5,11 @@ FROM python:3.10-alpine3.16
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONNUMBUFFERED 1
 
-RUN adduser --disabled-password circleci
+RUN adduser --disabled-password circleci && chown -R circleci ./home/circleci
 
 USER circleci
 
-COPY ./oc-lettings home/circleci/oc-lettings
+COPY ./oc-lettings ./home/circleci/oc-lettings
 WORKDIR /home/circleci/oc-lettings
 
 RUN python -m venv venv && \
