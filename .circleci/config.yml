@@ -39,6 +39,7 @@ jobs:
           command: python -m flake8 oc-lettings
 
   compose_and_test:
+    working_directory: ~/oc-letting
     docker:
       - image: xevan/oc-lettings-repo:$CIRCLE_SHA1
         <<: *docker-auth
@@ -58,14 +59,14 @@ jobs:
       - checkout
       - run:
           name: Init Bd
-          command: python oc-lettings/manage.py init
+          command: python manage.py init
       - run:
           name: Test
-          command: pwd && python -m pytest oc-lettings
+          command: pwd && python -m pytest
       - run: ls
       - run:
           name: Start Serveur
-          command: gunicorn oc-lettings.oc-lettings.wsgi:application --bind=$PORT
+          command: gunicorn oc-lettings.wsgi:application --bind=$PORT
 
   build:
     machine:
