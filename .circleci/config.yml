@@ -39,7 +39,7 @@ jobs:
           command: python -m flake8 oc-lettings
 
   compose_and_test:
-    working_directory: ~/project/oc-lettings
+    working_directory: ~/project/oc-lettings/oc-lettings
     docker:
       - image: xevan/oc-lettings-repo:$CIRCLE_SHA1
         <<: *docker-auth
