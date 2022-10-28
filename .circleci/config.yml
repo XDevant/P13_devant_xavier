@@ -65,7 +65,7 @@ jobs:
           command: cd oc-lettings && python -m pytest
       - run:
           name: Start Serveur
-          command: gunicorn --pythonpath /home/CircleCI/project/oc-lettings --env DJANGO_SETTINGS_MODULE=oc-lettings.settings oc-lettings.wsgi:application --bind=$PORT
+          command: gunicorn --chdir /home/CircleCI/project/oc-lettings --pythonpath /home/CircleCI/project/oc-lettings --env DJANGO_SETTINGS_MODULE=oc-lettings.settings oc-lettings.wsgi:application --bind=$PORT
 
   build:
     machine:
