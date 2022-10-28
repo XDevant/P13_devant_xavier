@@ -58,7 +58,7 @@ jobs:
       - checkout
       - run:
           name: Init Bd
-          command: pwd && ls -l && python oc-lettings\manage.py init
+          command: pwd && ls -l && python oc-lettings/manage.py init
       - run:
           name: Test
           command: cd oc-lettings && pwd && python -m pytest
