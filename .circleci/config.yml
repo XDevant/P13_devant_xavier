@@ -98,7 +98,6 @@ jobs:
       image: ubuntu-2204:2022.04.2
     steps:
       - checkout
-      - run:
       - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
       - run: docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
       - run: docker tag xevan/oc-lettings-repo:$CIRCLE_SHA1 release
