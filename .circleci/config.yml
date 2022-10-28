@@ -104,7 +104,7 @@ jobs:
       # install CLI
       - run: sudo curl https://cli-assets.heroku.com/install.sh | sh
       - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
-      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push release
+      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku -a container:push release web
       #- run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release web release
 
 
