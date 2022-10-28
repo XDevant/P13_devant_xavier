@@ -59,11 +59,10 @@ jobs:
       - checkout
       - run:
           name: Init Bd
-          command: pwd && python manage.py init
+          command: pwd && ls && python manage.py init
       - run:
           name: Test
           command: pwd && python -m pytest
-      - run: ls
       - run:
           name: Start Serveur
           command: gunicorn oc-lettings.wsgi:application --bind=$PORT
