@@ -54,12 +54,11 @@ jobs:
           POSTGREST_PASSWORD: somemdp
           PORT: 5000
         <<: *docker-auth
-    working_directory: ./oc-lettings
     steps:
       - checkout
       - run:
           name: Init Bd
-          command: ls && python manage.py init
+          command: ls && python -m manage.py init
       - run:
           name: Test
           command: pwd && python -m pytest oc-lettings
