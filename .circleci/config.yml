@@ -65,7 +65,7 @@ jobs:
       - run: ls
       - run:
           name: Start Serveur
-          command: gunicorn oc-lettings.wsgi:application --bind=$PORT
+          command: gunicorn oc-lettings.oc-lettings.wsgi:application --bind=$PORT
 
   build:
     machine:
