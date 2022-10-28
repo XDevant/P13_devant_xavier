@@ -27,6 +27,7 @@ RUN python -m venv /py && \
 EXPOSE $PORT
 
 ENV PATH=/py/bin:$PATH
+ENV PYTHONPATH=".:$PYTHONPATH"
 
 USER CircleCI
 

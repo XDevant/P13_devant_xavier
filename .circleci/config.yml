@@ -53,6 +53,7 @@ jobs:
           POSTGRES_DB: circle_test
           POSTGREST_PASSWORD: somemdp
           PORT: 5000
+          PYTHONPATH: ./oc-lettings:$PYTHONPATH
         <<: *docker-auth
     steps:
       - checkout
