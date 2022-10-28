@@ -24,7 +24,7 @@ jobs:
           pkg-manager: pip
       - run:
           name: Run tests
-          command: python -m pytest oc-lettings
+          command: python -m pytest oc_lettings
 
   lint:
     executor: python/default
@@ -36,7 +36,7 @@ jobs:
           # pip-dependency-file: test-requirements.txt
       - run:
           name: Run flake8
-          command: python -m flake8 oc-lettings
+          command: python -m flake8 oc_lettings
 
   compose_and_test:
     docker:
@@ -53,19 +53,19 @@ jobs:
           POSTGRES_DB: circle_test
           POSTGREST_PASSWORD: somemdp
           PORT: 5000
-          PYTHONPATH: ./oc-lettings:$PYTHONPATH
+          PYTHONPATH: ./oc_lettings:$PYTHONPATH
         <<: *docker-auth
     steps:
       - checkout
       - run:
           name: Init Bd
-          command: pwd && ls -l && python oc-lettings/manage.py init
+          command: pwd && ls -l && python oc_lettings/manage.py init
       - run:
           name: Test
-          command: cd oc-lettings && python -m pytest
+          command: cd oc_lettings && python -m pytest
       - run:
           name: Start Serveur
-          command: gunicorn --chdir /home/CircleCI/project/oc-lettings --pythonpath /home/CircleCI/project/oc-lettings --env DJANGO_SETTINGS_MODULE=oc-lettings.settings oc-lettings.wsgi:application --bind=$PORT
+          command: gunicorn --chdir /home/CircleCI/project/oc_lettings --pythonpath /home/CircleCI/project/oc_lettings --env DJANGO_SETTINGS_MODULE=oc_lettings.settings oc_lettings.wsgi:application --bind=$PORT
 
   build:
     machine:
@@ -90,7 +90,6 @@ jobs:
         - checkout
         - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
         - run: docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
-        - run: docker compose run -e SENTRY_DNS=$SENTRY_DNS -e DATABASE_URL="postgres://marcel:password@db:5432/circleci_test" app python --help
         - run: docker compose up
 
   heroku_deploy:

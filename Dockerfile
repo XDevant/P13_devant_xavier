@@ -5,11 +5,8 @@ FROM python:3.10-alpine3.16
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONNUMBUFFERED 1
 
-USER root
-
-COPY ./oc-lettings ./oc-lettings
-WORKDIR /oc-lettings
-
+COPY ./oc_lettings ./oc_lettings
+WORKDIR ./oc_lettings
 
 RUN python -m venv /py && \
     . /py/bin/activate && \
@@ -19,16 +16,14 @@ RUN python -m venv /py && \
         build-base postgresql-dev musl-dev linux-headers && \
     pip install -r requirements.txt && \
     apk del .tmp-deps && \
-    adduser --disabled-password CircleCI && \
-    chown -R CircleCI /home/CircleCI  && \
-    chown -R CircleCI .
-
+    adduser --disabled-password -H app && \
+    chown -R app .
 
 EXPOSE $PORT
 
 ENV PATH=/py/bin:$PATH
-ENV PYTHONPATH=".:$PYTHONPATH"
+ENV PYTHONPATH="./oc_lettings::$PYTHONPATH"
 
-USER CircleCI
+USER app
 
-CMD python manage.py init && gunicorn oc-lettings.wsgi:application --bind=$PORT
+CMD python manage.py init && gunicorn --env DJANGO_SETTINGS_MODULE=oc_lettings.settings oc_lettings.wsgi:application --bind 0.0.0.0:$PORT
