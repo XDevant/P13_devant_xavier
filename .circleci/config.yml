@@ -61,10 +61,10 @@ jobs:
           command: pwd && ls -l && python oc-lettings/manage.py init
       - run:
           name: Test
-          command: cd oc-lettings && pwd && python -m pytest
+          command: cd oc-lettings && python -m pytest
       - run:
           name: Start Serveur
-          command: gunicorn oc-lettings.wsgi:application --bind=$PORT
+          command: cd oc-lettings && gunicorn oc-lettings.wsgi:application --bind=$PORT
 
   build:
     machine:
