@@ -83,7 +83,7 @@ jobs:
       BASH_ENV: /etc/profile
       DEBUG: 1
       PORT: 7000
-      SENTRY_DNS: $SENTRY_DNS
+      SENTRY_DNS: https://19dc4cfc565f4f36bad78168c9e7a646@o4503968575586304.ingest.sentry.io/4503968578404352
       SECRET_KEY: $SECRET_KEY
       DATABASE_URL: "postgres://app:password@db:5432/oc-lettings"
       POSTGRES_USER: app
@@ -93,7 +93,7 @@ jobs:
         - checkout
         - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
         - run: docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
-        - run: SENTRY_DNS=${SENTRY_DNS} docker compose -f docker-compose-prod.yaml up --no-start
+        - run: docker compose -f docker-compose-prod.yaml up --no-start
         - run: sudo sh -c "echo 'export SENTRY_DNS=$SENTRY_DNS' >> $BASH_ENV"
         - run: sudo sh -c "echo 'export SECRET_KEY=$SECRET_KEY' >> $BASH_ENV"
         - run: echo "$SENTRY_DNS"
