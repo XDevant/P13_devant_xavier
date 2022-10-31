@@ -5,10 +5,11 @@ services:
     build:
       context: .
     environment:
-      DEBUG: 1
-      PORT: "7000"
-      SENTRY_DNS: "https://19dc4cfc565f4f36bad78168c9e7a646@o4503968575586304.ingest.sentry.io/4503968578404352"
-      DATABASE_URL: "postgres://app:password@db:5432/oc-lettings"
+      - DEBUG="1"
+      - PORT="7000"
+      - SECRET_KEY
+      - SENTRY_DNS="https://19dc4cfc565f4f36bad78168c9e7a646@o4503968575586304.ingest.sentry.io/4503968578404352"
+      - DATABASE_URL="postgres://app:password@db:5432/oc-lettings"
     image: xevan/oc-lettings-repo:latest
     ports:
       - "7000:7000"
