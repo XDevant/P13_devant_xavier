@@ -17,11 +17,12 @@ RUN python -m venv /py && \
     pip install -r requirements.txt && \
     apk del .tmp-deps && \
     adduser --disabled-password -H app && \
-    chown -R app .
+    chown -R app . && \
+    chown app /etc/profile
 
 EXPOSE $PORT
 
-ENV PATH=/py/bin:$PATH
+ENV PATH=/py/bin:/etc/profile:$PATH
 ENV PYTHONPATH="./oc_lettings::$PYTHONPATH"
 
 USER app
