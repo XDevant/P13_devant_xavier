@@ -38,8 +38,8 @@ sentry_sdk.init(
 SECRET_KEY = os.environ.get("SECRET_KEY", env('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', env('DEBUG'))
-
+DEBUG = True
+# os.environ.get('DEBUG', env('DEBUG'))
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 if IS_HEROKU:

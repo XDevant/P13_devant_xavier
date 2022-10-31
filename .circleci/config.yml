@@ -84,7 +84,7 @@ jobs:
       DEBUG: 1
       PORT: 7000
       SENTRY_DNS: https://19dc4cfc565f4f36bad78168c9e7a646@o4503968575586304.ingest.sentry.io/4503968578404352
-      SECRET_KEY: "fp9^593hsriajg_5trot9g!1qa@ewo-1#@4hkp46s"
+      SECRET_KEY: "fp9^593hsriajg_5trot9g!1qa@ewo-1#@4hp46s"
       DATABASE_URL: "postgres://app:password@db:5432/oc-lettings"
       POSTGRES_USER: app
       POSTGRES_DB: oc-lettings
@@ -111,7 +111,7 @@ jobs:
       - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
       - run: HEROKU_API_KEY=${HEROKU_TOKEN} docker push registry.heroku.com/oc-lettings-oc/web
       - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push --app=oc-lettings-oc web
-      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release --app=oc-lettings-oc web
+      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release --app=oc-lettings-oc web release
 
 
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -150,13 +150,6 @@ workflows:
   test:
     jobs:
       - build:
-          filters:
-            branches:
-              only:
-                - circleci-project-setup
-      - compose_and_test:
-          requires:
-            - build
           filters:
             branches:
               only:
