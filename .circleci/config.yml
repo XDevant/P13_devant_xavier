@@ -79,6 +79,7 @@ jobs:
   compose_and_test:
     machine:
       image: ubuntu-2204:2022.04.2
+    shell: /bin/sh -leo pipefail
     environment:
       DEBUG: 1
       PORT: 7000
