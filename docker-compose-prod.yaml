@@ -9,7 +9,7 @@ services:
       - PORT="7000"
       - SENTRY_DNS=https://19dc4cfc565f4f36bad78168c9e7a646@o4503968575586304.ingest.sentry.io/4503968578404352
       - DATABASE_URL=postgres://app:password@db:5432/oc-lettings
-      - SECRET_KEY=fp\$9^593hsriajg\$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s
+      - SECRET_KEY="fp\$9^593hsriajg\$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s"
     image: xevan/oc-lettings-repo:latest
     ports:
       - "7000:7000"
