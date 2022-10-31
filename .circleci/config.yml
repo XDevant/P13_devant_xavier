@@ -107,12 +107,12 @@ jobs:
       - checkout
       - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
       - run: docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
-      - run: docker tag xevan/oc-lettings-repo:$CIRCLE_SHA1 release
+      - run: docker tag xevan/oc-lettings-repo:$CIRCLE_SHA1 registry.heroku.com/oc-lettings-oc/web
+      - run: docker push registry.heroku.com/oc-lettings-oc/web
       # install CLI
       - run: sudo curl https://cli-assets.heroku.com/install.sh | sh
       - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
-      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push --app=release web
-      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release web release
+      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push --app=oc-lettings-oc web
 
 
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -155,9 +155,16 @@ workflows:
             branches:
               only:
                 - circleci-project-setup
-      - heroku_deploy:
+      - compose_and_test:
           requires:
             - build
+          filters:
+            branches:
+              only:
+                - circleci-project-setup
+      - heroku_deploy:
+          requires:
+            - compose_and_test
           filters:
             branches:
               only:
