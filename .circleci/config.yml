@@ -96,6 +96,7 @@ jobs:
         - run: SENTRY_DNS=${SENTRY_DNS} docker compose -f docker-compose-prod.yaml up --no-start
         - run: sudo sh -c "echo 'export SENTRY_DNS=$SENTRY_DNS' >> $BASH_ENV"
         - run: sudo sh -c "echo 'export SECRET_KEY=$SECRET_KEY' >> $BASH_ENV"
+        - run: echo "$SENTRY_DNS"
         - run: docker compose -f docker-compose-prod.yaml run -e SENTRY_DNS=$SENTRY_DNS -e SECRET_KEY=$SECRET_KEY app python manage.py init
 
   heroku_deploy:

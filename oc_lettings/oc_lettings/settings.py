@@ -18,7 +18,7 @@ IS_HEROKU = "DYNO" in os.environ
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 sentry_sdk.init(
-    dsn=os.environ.get("SENTRY_DNS", env("SENTRY_DNS")).strip("'").strip('"'),
+    dsn=os.environ.get("SENTRY_DNS", env("SENTRY_DNS")),
     integrations=[
         DjangoIntegration(),
     ],
