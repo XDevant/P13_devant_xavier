@@ -80,13 +80,14 @@ jobs:
     machine:
       image: ubuntu-2204:2022.04.2
     environment:
-        DEBUG: 1
-        PORT: 7000
-        SENTRY_DNS: $SENTRY_DNS
-        DATABASE_URL: "postgres://app:password@db:5432/oc-lettings"
-        POSTGRES_USER: app
-        POSTGRES_DB: oc-lettings
-        POSTGRES_PASSWORD: password
+      BASH_ENV: /etc/profile
+      DEBUG: 1
+      PORT: 7000
+      SENTRY_DNS: $SENTRY_DNS
+      DATABASE_URL: "postgres://app:password@db:5432/oc-lettings"
+      POSTGRES_USER: app
+      POSTGRES_DB: oc-lettings
+      POSTGRES_PASSWORD: password
     steps:
         - checkout
         - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
