@@ -90,6 +90,13 @@ serez dans l'impossibilité d'utiliser docker build, compose ou run via la CLI.
 Il faudra alors la construire et la tester dans le cloud.
 
 
+### Dumpdata:
+We will migrate from sqlite3 to Postgres when building the image so we first need to dump
+our data:
+
+    - `cd oc_lettings`
+    - `python -Xutf8 manage.py dumpdata --natural-foreign --natural-primary -econtenttypes -e auth.permission -e admin.logentry -o oc_lettings_site/fixtures/db.json`
+
 ### 2 Requirements.txt
 
 Il y a 2 fichiers nommés requirements.txt. 
@@ -101,14 +108,12 @@ utilisé pour créer l'environnement virtuel de l'image docker.
 
  La principale différence entre les 2 est que dans l'image docker, nous 
 utiliserons Gunicorn pour servir l'app et non runserver, ansi que psycopg2
-pour la base de donnée postgres.
+pour la base de donnée Postgres.
 
  Note : les librairies et le compilateur C nécessaires pour l'installation 
 de psycopg2 sont installées de façon temporaire sur l'image docker afin 
 d'en limiter la taille cf. Dockerfile.
 
- De plus flake8 et quelques outils de tests comme selenium ne sont pas utiles
-dans l'image.
  
 ### 2 fichiers .env
 
@@ -176,6 +181,5 @@ Il s'agit de postgresql-dev, musl-dev et linux-headers.
 Pour finir il nous faut dans oc_lettings_site/management/commands une
 commande maison qui sera lancée lors du démarrage de nos conteneurs.
 
-Cette commande va enchainer Makemigration, Migrate, Loaddata et 
-Runserver ou Gunicorn selon l'argument passé.
-Usage : startserver or starserver windows
+Cette commande va enchainer Collectstatic, Makemigration, Migrate et Loaddata.
+Usage : python manage.py init

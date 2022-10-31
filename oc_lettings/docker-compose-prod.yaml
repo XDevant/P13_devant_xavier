@@ -4,9 +4,13 @@ services:
   app:
     build:
       context: .
-    env_file: .env
+    environment:
+      DEBUG: $DEBUG
+      PORT: $PORT
+      SENTRY_DNS: $SENTRY_DNS
+      DATABASE_URL: $DATABASE_URL
     pull_policy: build
-    image: xevan/oc-lettings
+    image: xevan/oc-lettings-repo:latest
     ports:
       - "7000:7000"
     depends_on:
