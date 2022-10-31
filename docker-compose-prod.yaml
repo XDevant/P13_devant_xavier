@@ -9,7 +9,6 @@ services:
       PORT: "7000"
       SENTRY_DNS:
       DATABASE_URL: "postgres://app:password@db:5432/oc-lettings"
-    pull_policy: build
     image: xevan/oc-lettings-repo:latest
     ports:
       - "7000:7000"

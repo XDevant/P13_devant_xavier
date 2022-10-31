@@ -91,7 +91,7 @@ jobs:
         - checkout
         - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
         - run: docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
-        - run: echo "$SENTRY_DNS" | export SENTRY_DNS=$SENTRY_DNS
+        - run: echo "$SENTRY_DNS" | export SENTRY_DNS=$SENTRY_DNS >> "$BASH_ENV"
         - run:
             name: Start Serveur
             command: docker compose -f docker-compose-prod.yaml up
