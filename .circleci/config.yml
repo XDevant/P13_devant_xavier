@@ -79,21 +79,22 @@ jobs:
   compose_and_test:
     machine:
       image: ubuntu-2204:2022.04.2
-      DEBUG: 1
-      PORT: 7000
-      SENTRY_DNS: $SENTRY_DNS
-      DATABASE_URL: "postgres://app:password@db:5432/oc-lettings"
-      POSTGRES_USER: app
-      POSTGRES_DB: oc-lettings
-      POSTGRES_PASSWORD: password
+      environment:
+        DEBUG: 1
+        PORT: 7000
+        SENTRY_DNS: $SENTRY_DNS
+        DATABASE_URL: "postgres://app:password@db:5432/oc-lettings"
+        POSTGRES_USER: app
+        POSTGRES_DB: oc-lettings
+        POSTGRES_PASSWORD: password
     steps:
         - checkout
         - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
         - run: docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
-        - run: echo "$SENTRY_DNS" | export SENTRY_DNS=$SENTRY_DNS >> "$BASH_ENV"
+        - run: echo "$SENTRY_DNS" | export SENTRY_DNS=$SENTRY_DNS
         - run:
             name: Start Serveur
-            command: echo "$SENTRY_DNS" | export SENTRY_DNS=$SENTRY_DNS && docker compose -f docker-compose-prod.yaml up
+            command: docker compose -f docker-compose-prod.yaml up
 
   heroku_deploy:
     machine:
