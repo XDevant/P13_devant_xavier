@@ -156,7 +156,7 @@ workflows:
                 - circleci-project-setup
       - heroku_deploy:
           requires:
-            - compose_and_test
+            - build
           filters:
             branches:
               only:
