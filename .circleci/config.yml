@@ -84,7 +84,7 @@ jobs:
       DEBUG: 1
       PORT: 7000
       SENTRY_DNS: https://19dc4cfc565f4f36bad78168c9e7a646@o4503968575586304.ingest.sentry.io/4503968578404352
-      SECRET_KEY: "fp9^593hsriajg_%5trot9g!1qa@ewo-1#@&4%hp46s"
+      SECRET_KEY: "fp9^593hsriajg_5trot9g!1qa@ewo-1#@&4hp46s"
       DATABASE_URL: "postgres://app:password@db:5432/oc-lettings"
       POSTGRES_USER: app
       POSTGRES_DB: oc-lettings
