@@ -84,7 +84,7 @@ jobs:
       DEBUG: 1
       PORT: 7000
       SENTRY_DNS: https://19dc4cfc565f4f36bad78168c9e7a646@o4503968575586304.ingest.sentry.io/4503968578404352
-      SECRET_KEY: "fp9^593hsriajg_%=5trot9g!1qa@ewo-1#@=&4%=hp46s"
+      SECRET_KEY: "fp9^593hsriajg_%5trot9g!1qa@ewo-1#@&4%hp46s"
       DATABASE_URL: "postgres://app:password@db:5432/oc-lettings"
       POSTGRES_USER: app
       POSTGRES_DB: oc-lettings
@@ -96,7 +96,6 @@ jobs:
         - run: docker compose -f docker-compose-prod.yaml up --no-start
         - run: sudo sh -c "echo 'export SENTRY_DNS=${SENTRY_DNS}' >> $BASH_ENV"
         - run: sudo sh -c "echo 'export SECRET_KEY=${SECRET_KEY}' >> $BASH_ENV"
-        - run: echo "${SENTRY_DNS}"
         - run: docker compose -f docker-compose-prod.yaml run -e SENTRY_DNS=${SENTRY_DNS} -e SECRET_KEY=${SECRET_KEY} app python manage.py init
 
   heroku_deploy:
