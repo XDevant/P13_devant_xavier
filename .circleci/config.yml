@@ -79,7 +79,7 @@ jobs:
   compose_and_test:
     machine:
       image: ubuntu-2204:2022.04.2
-    shell: /bin/sh -eo pipefail
+    shell: /bin/sh -leo
     environment:
       BASH_ENV: /etc/profile
       DEBUG: 1
