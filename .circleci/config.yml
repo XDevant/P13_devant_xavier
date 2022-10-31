@@ -95,9 +95,7 @@ jobs:
         - run: docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
         - run: sudo sh -c "echo 'export SENTRY_DNS=$SENTRY_DNS' >> $BASH_ENV"
         - run: sudo sh -c "echo 'export SECRET_KEY=$SECRET_KEY' >> $BASH_ENV"
-        - run:
-            name: Start Serveur
-            command: docker compose -f docker-compose-prod.yaml create app
+        - run: docker compose -f docker-compose-prod.yaml create app
 
   heroku_deploy:
     machine:
@@ -107,10 +105,10 @@ jobs:
       - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
       - run: docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
       - run: docker tag xevan/oc-lettings-repo:$CIRCLE_SHA1 registry.heroku.com/oc-lettings-oc/web
-      - run: docker push registry.heroku.com/oc-lettings-oc/web
       # install CLI
       - run: sudo curl https://cli-assets.heroku.com/install.sh | sh
       - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
+      - run: HEROKU_API_KEY=${HEROKU_TOKEN} docker push registry.heroku.com/oc-lettings-oc/web
       - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push --app=oc-lettings-oc web
 
 
