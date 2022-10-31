@@ -9,7 +9,7 @@ services:
       - PORT=7000
       - SENTRY_DNS=$SENTRY_DNS
       - DATABASE_URL=postgres://app:password@db:5432/oc-lettings
-      - SECRET_KEY="fp9^593hsriajg_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s"
+      - SECRET_KEY=$SECRET_KEY
     image: xevan/oc-lettings-repo:latest
     ports:
       - "7000:7000"

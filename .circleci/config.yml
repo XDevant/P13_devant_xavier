@@ -95,8 +95,8 @@ jobs:
         - run: docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
         - run: sudo sh -c "echo 'export SENTRY_DNS=$SENTRY_DNS' >> $BASH_ENV"
         - run: sudo sh -c "echo 'export SECRET_KEY=$SECRET_KEY' >> $BASH_ENV"
-        - run: docker compose -f docker-compose-prod.yaml create app
-        - run: SENTRY_DNS=${SENTRY_DNS} docker compose -f docker-compose-prod.yaml run -e SENTRY_DNS=$SENTRY_DNS -e SECRET_KEY=$SECRET_KEY app python manage.py init
+        - run: SENTRY_DNS=${SENTRY_DNS} docker compose -f docker-compose-prod.yaml --no-start up
+        - run: SENTRY_DNS=${SENTRY_DNS} docker compose -f docker-compose-prod.yaml run -e SENTRY_DNS=$SENTRY_DNS -e SECRET_KEY=$SECRET_KEY app python -m manage.py init
 
   heroku_deploy:
     machine:
