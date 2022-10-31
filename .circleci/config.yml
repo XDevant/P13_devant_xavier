@@ -95,7 +95,7 @@ jobs:
         - run: export $DATABASE_URL
         - run: export $POSTGRES_USER
         - run: export $POSTGRES_DB
-         run: export $POSTGRES_PASSWORD
+        - run: export $POSTGRES_PASSWORD
         - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
         - run: docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
         - run: docker compose up
