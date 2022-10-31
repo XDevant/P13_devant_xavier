@@ -18,7 +18,6 @@ RUN python -m venv /py && \
     apk del .tmp-deps && \
     adduser --disabled-password -H app && \
     chown -R app . && \
-    mkdir -p /etc/profile  && \
     chown -R app /etc/profile
 
 EXPOSE $PORT
