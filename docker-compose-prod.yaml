@@ -4,8 +4,6 @@ services:
   app:
     build:
       context: .
-    command: >
-      sh -c "python manage.py init"
     environment:
       - DEBUG=1
       - PORT=7000
