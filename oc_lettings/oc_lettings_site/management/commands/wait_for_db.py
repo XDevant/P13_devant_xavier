@@ -22,7 +22,7 @@ class Command(BaseCommand):
         """Entrypoint for command."""
         self.stdout.write('Waiting for database...')
         db_up = False
-        time.sleep(5)
+        time.sleep(2)
         while db_up is False:
             try:
                 self.check(databases=['default'])

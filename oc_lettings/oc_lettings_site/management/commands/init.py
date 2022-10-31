@@ -4,6 +4,7 @@ Also load data dumped previously.
 """
 from django.core.management.base import BaseCommand
 from django.core.management import call_command
+from django.db.utils import IntegrityError
 
 
 class Command(BaseCommand):
@@ -21,4 +22,7 @@ class Command(BaseCommand):
         call_command('wait_for_db')
         call_command('makemigrations')
         call_command('migrate', '--run-syncdb')
-        call_command('loaddata', 'db.json')
+        try:
+            call_command('loaddata', 'db.json')
+        except IntegrityError:
+            pass

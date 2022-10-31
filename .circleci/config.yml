@@ -95,8 +95,7 @@ jobs:
         - run: docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
         - run: sudo sh -c "echo 'export SENTRY_DNS=${SENTRY_DNS}' >> $BASH_ENV"
         - run: sudo sh -c "echo 'export SECRET_KEY=${SECRET_KEY}' >> $BASH_ENV"
-        - run: docker compose -f docker-compose-prod.yaml up --wait db
-        - run: docker compose -f docker-compose-prod.yaml run app python manage.py init
+        - run: docker compose -f docker-compose-prod.yaml up --wait db -d
 
   heroku_deploy:
     machine:
@@ -161,11 +160,3 @@ workflows:
             branches:
               only:
                 - circleci-project-setup
-      - heroku_deploy:
-          requires:
-            - compose_and_test
-          filters:
-            branches:
-              only:
-                - circleci-project-setup
-

@@ -95,7 +95,7 @@ We will migrate from sqlite3 to Postgres when building the image so we first nee
 our data:
 
     - `cd oc_lettings`
-    - `python -Xutf8 manage.py dumpdata --natural-foreign --natural-primary -econtenttypes -e auth.permission -e admin.logentry -o oc_lettings_site/fixtures/db.json`
+    - `python -Xutf8 manage.py dumpdata --exclude=contenttypes --exclude=auth.Permission -o db.json`
 
 ### 2 Requirements.txt
 
