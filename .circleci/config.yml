@@ -94,6 +94,7 @@ jobs:
         - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
         - run: docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
         - run: docker compose -f docker-compose-prod.yaml up --no-start
+        - run: docker compose -f docker-compose-prod.yaml start db
         - run: sudo sh -c "echo 'export SENTRY_DNS=${SENTRY_DNS}' >> $BASH_ENV"
         - run: sudo sh -c "echo 'export SECRET_KEY=${SECRET_KEY}' >> $BASH_ENV"
         - run: docker compose -f docker-compose-prod.yaml run -e SENTRY_DNS=${SENTRY_DNS} -e SECRET_KEY=${SECRET_KEY} app python manage.py init
