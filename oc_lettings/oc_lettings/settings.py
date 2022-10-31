@@ -42,7 +42,7 @@ DEBUG = os.environ.get('DEBUG', env('DEBUG'))
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 if IS_HEROKU:
-    DEBUG = True
+    DEBUG = False
     ALLOWED_HOSTS = ['*']
 
 # Application definition
