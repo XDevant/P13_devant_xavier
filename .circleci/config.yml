@@ -98,7 +98,7 @@ jobs:
         - run: export POSTGRES_PASSWORD
         - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
         - run: docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
-        - run: docker compose up
+        - run: docker compose -f docker-compose-prod.yaml up
 
   heroku_deploy:
     machine:
