@@ -83,8 +83,8 @@ jobs:
       BASH_ENV: /etc/profile
       DEBUG: 1
       PORT: 7000
-      SENTRY_DNS: SENTRY_DNS
-      SECRET_KEY: SECRET_KEY
+      SENTRY_DNS:$SENTRY_DNS
+      SECRET_KEY: $SECRET_KEY
       DATABASE_URL: "postgres://app:password@db:5432/oc-lettings"
       POSTGRES_USER: app
       POSTGRES_DB: oc-lettings
