@@ -95,7 +95,7 @@ jobs:
         - run: docker pull xevan/oc-lettings-repo:$CIRCLE_SHA1
         - run: sudo sh -c "echo 'export SENTRY_DNS=${SENTRY_DNS}' >> $BASH_ENV"
         - run: sudo sh -c "echo 'export SECRET_KEY=${SECRET_KEY}' >> $BASH_ENV"
-        - run: docker compose -f docker-compose-prod.yaml up --no-start --wait db
+        - run: docker compose -f docker-compose-prod.yaml up --wait db
         - run: docker compose -f docker-compose-prod.yaml run app python -m pytest
 
   heroku_deploy:
