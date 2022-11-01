@@ -15,7 +15,7 @@ env = environ.Env(
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-IS_HEROKU = 'DATABASE_URL' in os.environ.get(env("DATABASE_URL"))
+IS_HEROKU = 'DATABASE_URL' in os.environ
 
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
