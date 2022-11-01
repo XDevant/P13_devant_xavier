@@ -38,6 +38,35 @@ jobs:
           name: Run flake8
           command: python -m flake8 oc_lettings
 
+  x_and_test:
+    docker:
+      - image: xevan/oc-lettings-repo:$CIRCLE_SHA1
+        <<: *docker-auth
+        environment:
+          DEBUG: 1
+          SENTRY_DNS: $SENTRY_DNS
+          DATABASE_URL: "postgres://app:somemdp@localhost:5432/circle_test?sslmode=disable"
+          USE_DOCKER: no
+      - image: cimg/postgres:14.1
+        environment:
+          POSTGRES_USER: app
+          POSTGRES_DB: circle_test
+          POSTGREST_PASSWORD: somemdp
+          PORT: 5000
+          PYTHONPATH: ./oc_lettings:$PYTHONPATH
+        <<: *docker-auth
+    steps:
+      - checkout
+      - run:
+          name: Init Bd
+          command: pwd && ls -l && python oc_lettings/manage.py init
+      - run:
+          name: Test
+          command: cd oc_lettings && python -m pytest
+      - run:
+          name: Start Serveur
+          command: gunicorn --chdir /home/CircleCI/project/oc_lettings --pythonpath /home/CircleCI/project/oc_lettings --env DJANGO_SETTINGS_MODULE=oc_lettings.settings oc_lettings.wsgi:application --bind=$PORT
+
   build:
     machine:
       image: ubuntu-2204:2022.04.2
@@ -90,7 +119,12 @@ workflows:
   base:
     jobs:
       - test
-      - lint
+      - lint:
+          filters:
+            branches:
+              only:
+                - master
+                - dev
       - build:
           requires:
             - test
@@ -106,10 +140,31 @@ workflows:
             branches:
               only:
                 - master
-#      - heroku_deploy:
-#          filters:
-#            branches:
-#              only:
-#                - master
-#          requires:
-#            - compose_and_test
+      - heroku_deploy:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - compose_and_test
+  test:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - circleci-project-setup
+      - compose_and_test:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - circleci-project-setup
+      - heroku_deploy:
+          requires:
+            - compose_and_test
+          filters:
+            branches:
+              only:
+                - circleci-project-setup
