@@ -103,10 +103,7 @@ DATABASES = {
     }
 }
 if IS_HEROKU:
-    DATABASES = {'default': dj_database_url.config(env=os.environ.get('DATABASE_URL'),
-                                                   engine='django.db.backends.postgresql_psycopg2'
-                                                   )
-                 }
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
