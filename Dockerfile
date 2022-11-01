@@ -19,7 +19,7 @@ RUN python -m venv /py && \
     adduser --disabled-password -H app && \
     chown -R app . && \
     chown -R app /etc/profile && \
-    chmod 755 /etc/profile
+    chmod 777
 
 EXPOSE $PORT
 
@@ -28,4 +28,4 @@ ENV PYTHONPATH="./oc_lettings::$PYTHONPATH"
 
 USER app
 
-CMD /py/bin/gunicorn --env DJANGO_SETTINGS_MODULE=oc_lettings.settings oc_lettings.wsgi:application --bind 0.0.0.0:$PORT
+CMD python manage.py init && gunicorn --env DJANGO_SETTINGS_MODULE=oc_lettings.settings oc_lettings.wsgi:application --bind 0.0.0.0:$PORT
