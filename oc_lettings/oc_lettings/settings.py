@@ -15,7 +15,7 @@ env = environ.Env(
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-IS_HEROKU = 'DATABASE_URL' in os.environ
+IS_HEROKU = "DYNO" in os.environ
 
 if not IS_HEROKU:
     environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
@@ -97,17 +97,17 @@ WSGI_APPLICATION = 'oc_lettings.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if IS_HEROKU:
-    DATABASES = {'default': dj_database_url.config(conn_max_age=600, ssl_require=True)}
-    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
-else:
+DATABASES = {'default': dj_database_url.config(conn_max_age=600, ssl_require=IS_HEROKU)}
+DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
+
+"""
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'oc-lettings-site.sqlite3'),
         }
     }
-
+"""
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
