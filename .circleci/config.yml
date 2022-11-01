@@ -18,6 +18,12 @@ heroku-auth: &heroku-auth
 jobs:
   test:
     executor: python/default
+    environment:
+      DATABASE_URL: "postgres://postgres:supermdp@localhost:5432/oc-lettings"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "supermdp"
+      POSTGRES_PORT: "5432"
+      POSTGRES_HOST: "localhost"
     steps:
       - checkout
       - python/install-packages:
