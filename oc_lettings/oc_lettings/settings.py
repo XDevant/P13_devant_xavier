@@ -17,10 +17,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 IS_HEROKU = 'DATABASE_URL' in os.environ
 
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+if not IS_HEROKU:
+    environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 sentry_sdk.init(
-    dsn=os.environ.get(env("SENTRY_DNS")),
+    dsn=os.environ.get("SENTRY_DNS"),
     integrations=[
         DjangoIntegration(),
     ],
@@ -37,7 +38,7 @@ sentry_sdk.init(
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.environ.get('DEBUG', '1')))
