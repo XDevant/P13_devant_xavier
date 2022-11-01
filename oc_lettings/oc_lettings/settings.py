@@ -15,7 +15,7 @@ env = environ.Env(
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-IS_HEROKU = 'DATABASE_URL' in os.environ
+IS_HEROKU = 'DATABASE_URL' in os.environ.get(env("DATABASE_URL"))
 
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
@@ -103,7 +103,7 @@ DATABASES = {
     }
 }
 if IS_HEROKU:
-    DATABASES = {'default': dj_database_url.config(os.environ.get('DATABASE_URL'),
+    DATABASES = {'default': dj_database_url.config(env=os.environ.get('DATABASE_URL'),
                                                    engine='django.db.backends.postgresql_psycopg2'
                                                    )
                  }
