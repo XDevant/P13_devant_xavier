@@ -3,7 +3,7 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 import dj_database_url
 import environ
-#import django_heroku
+# import django_heroku
 from pathlib import Path
 
 
@@ -150,5 +150,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
 # Enable WhiteNoise's GZip compression of static assets.
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-#db_from_env = dj_database_url.config(conn_max_age=0, ssl_require=False)
-#django_heroku.settings(locals(), databases=False)
+# db_from_env = dj_database_url.config(conn_max_age=0, ssl_require=False)
+# django_heroku.settings(locals(), databases=False)
