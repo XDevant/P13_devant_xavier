@@ -44,7 +44,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'oc-lettings-oc']
 
 if IS_HEROKU:
     DEBUG = False
-    ALLOWED_HOSTS = ['localhost', 'oc-lettings-oc']
+    ALLOWED_HOSTS = ['localhost', 'oc-lettings-oc.herokuapp.com']
 
 # Application definition
 

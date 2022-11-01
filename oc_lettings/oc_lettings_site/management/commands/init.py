@@ -25,5 +25,5 @@ class Command(BaseCommand):
         call_command('migrate', '--run-syncdb')
         try:
             call_command('loaddata', 'db.json')
-        except IntegrityError:
+        except Exception:
             pass
