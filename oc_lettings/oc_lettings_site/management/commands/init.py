@@ -21,6 +21,7 @@ class Command(BaseCommand):
         call_command('collectstatic', '--noinput')
         call_command('wait_for_db')
         call_command('makemigrations')
+        call_command('wait_for_db')
         call_command('migrate', '--run-syncdb')
         try:
             call_command('loaddata', 'db.json')
