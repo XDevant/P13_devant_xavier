@@ -1,6 +1,4 @@
 # oc-lettings
-oc_lettings/*/migrations/0*.*
-test.env
 **/*.sqlite3
 
 # Byte-compiled / optimized / DLL files
