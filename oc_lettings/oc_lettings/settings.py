@@ -107,8 +107,6 @@ if IS_HEROKU:
                                                    engine='django.db.backends.postgresql_psycopg2'
                                                    )
                  }
-elif os.environ.get('DATABASE_URL', None):
-    DATABASES = {'default': dj_database_url.config(os.environ.get('DATABASE_URL'))}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
