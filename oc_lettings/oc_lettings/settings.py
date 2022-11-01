@@ -40,11 +40,11 @@ SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.environ.get('DEBUG', '1')))
-ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 if IS_HEROKU:
-    DEBUG = False
-    ALLOWED_HOSTS = ['localhost', 'oc-lettings-oc.herokuapp.com']
+    DEBUG = True
+    ALLOWED_HOSTS = ['localhost', 'oc-lettings-oc.herokuapp.com', '*']
 
 # Application definition
 
@@ -102,9 +102,9 @@ DATABASES = {
     }
 }
 if IS_HEROKU:
-    DATABASES = {'default': dj_database_url.config(env('DATABASE_URL', None),
-                                                   conn_max_age=600,
-                                                   ssl_require=False)
+    DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL', None),
+                                                  conn_max_age=600,
+                                                  ssl_require=False)
                  }
 elif os.environ.get('DATABASE_URL', None):
     DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
