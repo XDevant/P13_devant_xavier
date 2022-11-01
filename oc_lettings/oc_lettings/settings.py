@@ -106,7 +106,7 @@ if IS_HEROKU:
                                                    conn_max_age=600,
                                                    ssl_require=False)
                  }
-elif env('DATABASE_URL', None):
+elif os.environ.get('DATABASE_URL', None):
     DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
 
 # Password validation
