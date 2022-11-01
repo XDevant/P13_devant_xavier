@@ -102,7 +102,10 @@ DATABASES = {
     }
 }
 if IS_HEROKU:
-    DATABASES = {'default': dj_database_url.config(conn_max_age=600, ssl_require=False)}
+    DATABASES = {'default': dj_database_url.config(os.environ.get('DATABASE_URL', None),
+                                                   conn_max_age=600,
+                                                   ssl_require=False)
+                 }
 elif os.environ.get('DATABASE_URL', None):
     DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
 
