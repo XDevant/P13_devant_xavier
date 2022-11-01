@@ -106,10 +106,10 @@ workflows:
             branches:
               only:
                 - master
-#      - heroku_deploy:
-#          filters:
-#            branches:
-#              only:
-#                - master
-#          requires:
-#            - compose_and_test
+      - heroku_deploy:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - compose_and_test
