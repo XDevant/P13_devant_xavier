@@ -103,7 +103,8 @@ DATABASES = {
     }
 }
 if IS_HEROKU:
-    DATABASES = {'default': dj_database_url.config(os.environ.get('DATABASE_URL'))}
+    DATABASES = {'default': dj_database_url.config(os.environ.get('DATABASE_URL'),
+                                                   engine='django.db.backends.postgresql_psycopg2')}
 elif os.environ.get('DATABASE_URL', None):
     DATABASES = {'default': dj_database_url.config(os.environ.get('DATABASE_URL'))}
 

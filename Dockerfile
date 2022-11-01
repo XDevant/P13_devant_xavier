@@ -28,4 +28,4 @@ ENV PYTHONPATH="./oc_lettings::$PYTHONPATH"
 
 USER app
 
-CMD /py/bin/python manage.py init && gunicorn --env DJANGO_SETTINGS_MODULE=oc_lettings.settings oc_lettings.wsgi:application --bind 0.0.0.0:$PORT
+CMD gunicorn --env DJANGO_SETTINGS_MODULE=oc_lettings.settings oc_lettings.wsgi:application --bind 0.0.0.0:$PORT

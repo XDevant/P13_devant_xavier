@@ -5,6 +5,7 @@ Also load data dumped previously.
 from django.core.management.base import BaseCommand
 from django.core.management import call_command
 from django.db.utils import IntegrityError
+from django.contrib.auth.models import User
 
 
 class Command(BaseCommand):
@@ -17,13 +18,18 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """Entrypoint for command."""
         self.stdout.write('Waiting for database...')
-        call_command('wait_for_db')
-        call_command('collectstatic', '--noinput')
-        call_command('wait_for_db')
-        call_command('makemigrations')
-        call_command('wait_for_db')
-        call_command('migrate', '--run-syncdb')
         try:
-            call_command('loaddata', 'db.json')
+            call_command('wait_for_db')
+            users = User.objects.all()
+            if len(users) > 0
+                call_command('migrate')
+            else:
+                call_command('wait_for_db')
+                call_command('collectstatic', '--noinput')
+                call_command('wait_for_db')
+                call_command('makemigrations')
+                call_command('wait_for_db')
+                call_command('migrate', '--run-syncdb')
+                call_command('loaddata', 'db.json')
         except Exception:
             pass
