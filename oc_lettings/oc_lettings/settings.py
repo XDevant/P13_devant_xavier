@@ -19,7 +19,7 @@ IS_HEROKU = "DYNO" in os.environ
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 sentry_sdk.init(
-    dsn=os.environ.get("SENTRY_DNS", env("SENTRY_DNS")),
+    dsn=os.environ.get(env("SENTRY_DNS")),
     integrations=[
         DjangoIntegration(),
     ],
@@ -36,7 +36,7 @@ sentry_sdk.init(
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", env('SECRET_KEY'))
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.environ.get('DEBUG', '1')))
@@ -102,11 +102,11 @@ DATABASES = {
     }
 }
 if IS_HEROKU:
-    DATABASES = {'default': dj_database_url.config(os.environ.get('DATABASE_URL', None),
+    DATABASES = {'default': dj_database_url.config(env('DATABASE_URL', None),
                                                    conn_max_age=600,
                                                    ssl_require=False)
                  }
-elif os.environ.get('DATABASE_URL', None):
+elif env('DATABASE_URL', None):
     DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
 
 # Password validation
