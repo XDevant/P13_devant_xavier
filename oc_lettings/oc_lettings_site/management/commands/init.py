@@ -21,7 +21,7 @@ class Command(BaseCommand):
         try:
             call_command('wait_for_db')
             users = User.objects.all()
-            if len(users) > 0
+            if len(users) > 0:
                 call_command('migrate')
             else:
                 call_command('wait_for_db')
