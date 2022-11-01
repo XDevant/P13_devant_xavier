@@ -19,7 +19,7 @@ RUN python -m venv /py && \
     adduser --disabled-password -H app && \
     chown -R app . && \
     chown -R app /etc/profile && \
-    chmod 777
+    chmod 777 /etc/profile
 
 EXPOSE $PORT
 
