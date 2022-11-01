@@ -36,7 +36,7 @@ jobs:
           # pip-dependency-file: test-requirements.txt
       - run:
           name: Run flake8
-          command: python -m flake8 oc_lettings
+          command: cd oc_lettings && python -m flake8 oc_lettings
 
   build:
     machine:
