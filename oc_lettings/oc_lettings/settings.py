@@ -3,6 +3,7 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 import dj_database_url
 import environ
+from pathlib import Path
 
 
 env = environ.Env(
@@ -11,7 +12,7 @@ env = environ.Env(
 )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 IS_HEROKU = "DYNO" in os.environ
 
@@ -42,7 +43,7 @@ DEBUG = os.environ.get('DEBUG', env('DEBUG'))
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'oc-lettings-oc']
 
 if IS_HEROKU:
-    DEBUG = True
+    DEBUG = False
     ALLOWED_HOSTS = ['localhost', 'oc-lettings-oc']
 
 # Application definition
