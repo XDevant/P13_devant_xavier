@@ -6,6 +6,7 @@ class TestIndexView(TestCase):
     def setUp(self):
         self.client = Client()
         self.response = self.client.get(reverse('index'))
+        self.response_2 = self.client.get('/')
         self.method = self.response.request['REQUEST_METHOD']
         self.url = self.response.request['PATH_INFO']
         self.code = self.response.status_code
@@ -29,3 +30,6 @@ class TestIndexView(TestCase):
         except IndexError:
             assert False, 'No title in index page.'
         print(f"title={title}")
+
+    def test_4_index_title(self):
+        assert self.response.status_code == self.response_2.status_code

@@ -4,7 +4,7 @@ We want to make sure Docker compose does not start migrations
 before db is ready.
 """
 import time
-
+from django.core.management import call_command
 from psycopg2 import OperationalError as PsycopgOperationalError
 
 from django.db.utils import OperationalError
@@ -21,14 +21,15 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """Entrypoint for command."""
         self.stdout.write('Waiting for database...')
-        db_up = False
-        time.sleep(2)
-        while db_up is False:
+        db_up = 0
+        time.sleep(1)
+        while db_up < 30:
             try:
-                self.check(databases=['default'])
-                db_up = True
+                call_command("check", "--database default")
+                db_up = 30
             except (PsycopgOperationalError, OperationalError):
                 self.stdout.write('Database unavailable, waiting 1 second...')
+                db_up += 1
                 time.sleep(1)
 
         self.stdout.write(self.style.SUCCESS('Database available!'))
