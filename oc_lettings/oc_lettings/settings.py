@@ -15,7 +15,7 @@ env = environ.Env(
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-IS_HEROKU = True
+IS_HEROKU = "DATABASE_URL" in os.environ
 
 if not IS_HEROKU:
     environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
@@ -93,12 +93,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'oc_lettings.wsgi.application'
 
-
+SSL = IS_HEROKU and "oc-lettings" not in os.environ.get("DATABASE_URL")
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {'default': dj_database_url.config(conn_max_age=600, ssl_require=IS_HEROKU)}
-DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
+DATABASES = {'default': dj_database_url.config(engine='django.db.backends.postgresql',
+                                               conn_max_age=600,
+                                               ssl_require=SSL),
+
+             }
 
 """
     DATABASES = {
