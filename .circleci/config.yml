@@ -46,8 +46,7 @@ jobs:
     steps:
       - checkout
       - run: python -m venv venv &&\
-             apt-get install sudo &&\
-             sudo sh -c "echo '. venv/bin/activate' >> $BASH_ENV" &&\
+             . venv/bin/activate &&\
              pip install -r requirements/dev.txt
       - run: python oc_lettings/manage.py init
       - run: python -m pytest oc_lettings
