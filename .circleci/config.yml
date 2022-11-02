@@ -16,14 +16,8 @@ heroku-auth: &heroku-auth
     password: $HEROKU_PASSWORD
 
 jobs:
-  test:
+  test_sqlite:
     executor: python/default
-    environment:
-      DATABASE_URL: "postgres://postgres:supermdp@localhost:5432/oc-lettings"
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "supermdp"
-      POSTGRES_PORT: "5432"
-      POSTGRES_HOST: "localhost"
     steps:
       - checkout
       - python/install-packages:
@@ -32,14 +26,37 @@ jobs:
           name: Run tests
           command: python -m pytest oc_lettings
 
+  test:
+    docker:
+      - image: cimg/ubuntu:lst
+        <<: *docker-auth
+        environment:
+          DEBUG: 1
+          SENTRY_DNS: $SENTRY_DNS
+          DATABASE_URL: "postgres://app:somemdp@localhost:5432/circle_test?sslmode=disable"
+          USE_DOCKER: no
+      - image: cimg/postgres:14.1
+        environment:
+          POSTGRES_USER: app
+          POSTGRES_DB: circle_test
+          POSTGREST_PASSWORD: somemdp
+          PORT: 5432
+        <<: *docker-auth
+    steps:
+      - checkout
+      - run:
+          name: Init Bd
+          command: pwd && ls -l && python oc_lettings/manage.py init
+      - run:
+          name: Test
+          command: python -m pytest oc_lettings
+
   lint:
     executor: python/default
     steps:
       - checkout
       - python/install-packages:
           pkg-manager: pip
-          # app-dir: ~/project/package-directory/  # If you're requirements.txt isn't in the root directory.
-          # pip-dependency-file: test-requirements.txt
       - run:
           name: Run flake8
           command: cd oc_lettings && python -m flake8 oc_lettings
@@ -114,6 +131,6 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
           requires:
             - compose_and_test

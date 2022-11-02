@@ -32,15 +32,13 @@ jobs:
       - checkout
       - python/install-packages:
           pkg-manager: pip
-          # app-dir: ~/project/package-directory/  # If you're requirements.txt isn't in the root directory.
-          # pip-dependency-file: test-requirements.txt
       - run:
           name: Run flake8
           command: python -m flake8 oc_lettings
 
   x_and_test:
     docker:
-      - image: xevan/oc-lettings-repo:$CIRCLE_SHA1
+      - image: cimg/ubuntu:lst
         <<: *docker-auth
         environment:
           DEBUG: 1

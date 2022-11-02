@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'oc_lettings.wsgi.application'
 
 SSL = True
 if "oc-lettings" in os.environ.get("POSTGRES_DB"):
-    SSL = True
+    SSL = False
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 DATABASES = {}
