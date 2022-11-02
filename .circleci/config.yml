@@ -30,6 +30,7 @@ jobs:
     docker:
       - image: cimg/python:3.10.1
         <<: *docker-auth
+        user: root
       - image: cimg/postgres:14.1
         <<: *docker-auth
         environment:
