@@ -73,7 +73,6 @@ jobs:
     environment:
       BASH_ENV: /etc/profile
       DEBUG: 1
-      PORT: 7000
       DATABASE_URL: "postgres://app:password@db:5432/oc-lettings"
       POSTGRES_USER: app
       POSTGRES_DB: oc-lettings
@@ -86,7 +85,8 @@ jobs:
         - run: sudo sh -c "echo 'export SENTRY_DNS=${SENTRY_DNS}' >> $BASH_ENV"
         - run: sudo sh -c "echo 'export SECRET_KEY=${SECRET_KEY}' >> $BASH_ENV"
         - run: docker compose -f docker-compose-prod.yaml up -d
-        - run: docker compose -f docker-compose-prod.yaml exec app python manage.py init
+        - run: docker compose -f docker-compose-prod.yaml exec app python manage.py init &&\
+               docker compose -f docker-compose-prod.yaml exec app pytest
 
   heroku_deploy:
     machine:
