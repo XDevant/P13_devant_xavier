@@ -94,7 +94,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'oc_lettings.wsgi.application'
 
 SSL = True
-if "oc-lettings" in os.environ.get("POSTGRES_DB"):
+if os.environ.get("POSTGRES_DB") and "oc-lettings" in os.environ.get("POSTGRES_DB"):
     SSL = False
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
