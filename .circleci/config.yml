@@ -46,7 +46,7 @@ jobs:
     steps:
       - checkout
       - run: python -m venv venv &&\
-             .venv/bin/activate &&\
+             /venv/bin/activate &&\
              pip install -r requirements/dev.txt
       - run: python oc_lettings/manage.py init
       - run: python -m pytest oc_lettings
