@@ -106,10 +106,6 @@ doit être utilisé pour créer l'environnement virtuel local de développement.
  Le second, à la base de l'application, dans le repertoire de manage.py est 
 utilisé pour créer l'environnement virtuel de l'image docker.
 
- La principale différence entre les 2 est que dans l'image docker, nous 
-utiliserons Gunicorn pour servir l'app et non runserver, ansi que psycopg2
-pour la base de donnée Postgres.
-
  Note : les librairies et le compilateur C nécessaires pour l'installation 
 de psycopg2 sont installées de façon temporaire sur l'image docker afin 
 d'en limiter la taille cf. Dockerfile.
@@ -124,10 +120,8 @@ d'en limiter la taille cf. Dockerfile.
   - Sur Heroku avec postgres et gunicorn.
 
 Or Heroku va communiquer certains paramètres via des variables d'environnement.
-En particulier $DATABASE_URL, $SENTRY_DNS et $PORT.
-
-Et CircleCi injectera une $SECRET_KEY dans l'image docker construite pour 
-le déployement.
+En particulier $DATABASE_URL, $SENTRY_DNS, $PORT et $SECRET_KEY dans l'image docker 
+construite pour le déployement.
 
  Nous allons donc injecter ces variables dans l'environnement docker via 
 le flag --env-file et le fichier .env situé à la base du projet pour tester
