@@ -31,6 +31,7 @@ jobs:
       - image: cimg/python:3.10.0
         <<: *docker-auth
         environment:
+          BASH_ENV: /etc/profile
           DEBUG: 1
           SENTRY_DNS: $SENTRY_DNS
           DATABASE_URL: "postgres://app:somemdp@localhost:5432/circle_test?sslmode=disable"
@@ -45,7 +46,7 @@ jobs:
     steps:
       - checkout
       - run: python3 -m venv venv &&\
-             echo ". venv/bin/activate" >> $BASH_ENV &&\
+             sudo sh -c "echo '. venv/bin/activate' >> $BASH_ENV" &&\
              pip install -r requirements/dev.txt
       - run:
           name: Init Bd
