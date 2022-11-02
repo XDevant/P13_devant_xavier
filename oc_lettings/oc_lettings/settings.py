@@ -98,10 +98,11 @@ WSGI_APPLICATION = 'oc_lettings.wsgi.application'
 
 # Heroku
 SSL = True
-# Local
-if os.environ.get("POSTGRES_DB") and "oc-lettings" in os.environ.get("POSTGRES_DB"):
+# Local/machine
+if os.environ.get("POSTGRES_DB") and ("oc-lettings" in os.environ.get("POSTGRES_DB") or
+                                      "oc-lettings" in os.environ.get("DATABASE_URL")):
     SSL = False
-# Docker/CircleCI
+# CircleCI Test DB
 if os.environ.get("DATABASE_URL") and "circle_test" in os.environ.get("DATABASE_URL"):
     SSL = False
 
