@@ -1,8 +1,8 @@
-from django.test import TestCase, Client
+from django.test import Client, SimpleTestCase
 from django.urls import reverse
 
 
-class TestIndexView(TestCase):
+class TestIndexView(SimpleTestCase):
     def setUp(self):
         self.client = Client()
         self.response = self.client.get(reverse('index'))

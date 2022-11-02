@@ -79,6 +79,11 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 - Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
 - Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
 
+
+### Docker
+ En plus de l'inscription au registry et de Docker Desktop, vous aurez besoin de vos logs
+pour CircleCI.
+
 Note: Docker on Windows
   - Pour utiliser docker sur votre machine, windows utilise WSL 2.
 WSL 2 a besoin pour fonctionner d'un windows10 family A JOUR ou Pro, 
@@ -89,13 +94,40 @@ de votre gestionnaire des tâches tentez de l'activer dans le BIOS.
 serez dans l'impossibilité d'utiliser docker build, compose ou run via la CLI.
 Il faudra alors la construire et la tester dans le cloud.
 
+### Heroku:
+ Rendez-vous sur Heroku.com et créez un compte.
+Puis une application dont le nom soit proche de "oc-lettings", il définira votre nom de domaine.
 
-### Dumpdata:
-We will migrate from sqlite3 to Postgres when building the image so we first need to dump
-our data:
+Ensuite, dans l'onglet "ressources" de votre nouvelle app, ajoutez 2 add-ons:
+ - Heroku Postgres
+ - Sentry
 
-    - `cd oc_lettings`
-    - `python -Xutf8 manage.py dumpdata --exclude=contenttypes --exclude=auth.Permission -o db.json`
+Puis attendez les messages de confirmation :
+ - @ref:postgresql-trapezoidal-36307 completed provisioning, setting DATABASE_URL.
+ - @ref:sentry-dimensional-81797 completed provisioning, setting SENTRY_DSN.
+
+A ce stade, si vous vous rendez dans l'onglet "settings" de votre app et cliquez sur 
+    "reveal config vars" vous devriez voir les 2 variables.
+ - Ajoutez à la liste votre VRAIE "SECRET_KEY". Celle qui sera utilisée par Heroku.
+
+Lorsque vous utiliserez Sentry, Django aura besoin du SENTRY_DSN. Renseignez-le aussi dans 
+CircleCi et le .env à la base du repo (utilisé pour créer les images docker).
+
+### Sentry
+ Maintenant que vous avez une app allez sur Sentry, créez un compte et une "app". L'app se résume
+au nom de domaine donné par Heroku, Sentry devrait recevoir les erreurs de votre site qd il
+sera en ligne.
+
+### CircleCi
+  Inscrivez-vous, créez un projet et reliez-le au repo GIT du projet django. Il faudra vous authentifier.
+Dans "Project Settings" naviguez vers "Environment Variables". C'est là qu'il faudra ajouter
+quelques variables :
+ - DOCKERHUB_PASSWORD
+ - DOCKERHUB_USERNAME
+ - HEROKU_ID
+ - HEROKU_TOKEN
+ - SECRET_KEY
+ - SENTRY_DNS
 
 ### 2 Requirements.txt
 
@@ -110,18 +142,16 @@ utilisé pour créer l'environnement virtuel de l'image docker.
 de psycopg2 sont installées de façon temporaire sur l'image docker afin 
 d'en limiter la taille cf. Dockerfile.
 
- 
 ### 2 fichiers .env
 
- Notre appli doit pouvoir fonctionner dans 3 environnements distincts :
- 
-  - Localement, sans docker avec sqlite3 et en utilisant runserver.
-  - Localement dans l'image docker avec postgres et runserver.
+ Notre appli doit pouvoir fonctionner dans 2 environnements distincts :
+
+  - Localement avec postgres et runserver.
   - Sur Heroku avec postgres et gunicorn.
 
 Or Heroku va communiquer certains paramètres via des variables d'environnement.
 En particulier $DATABASE_URL, $SENTRY_DNS, $PORT et $SECRET_KEY dans l'image docker 
-construite pour le déployement.
+construite pour le déploiement.
 
  Nous allons donc injecter ces variables dans l'environnement docker via 
 le flag --env-file et le fichier .env situé à la base du projet pour tester
@@ -131,49 +161,34 @@ une image aussi proche que possible de celle qui sera déployée.
 contenues dans le .env situé à la base de l'appli (à côté de manage.py) 
 grâce à la librairie django-environ sans remplacer celle déjà présentes.
 
- Le fichier settings.py de Django est donc configuré de la manière suivante :
 
-  - Si Heroku est détecté les variables sont lues via os.environ.get et
-donc seules les celle injectées par CircleCi (SECRET_KEY, logs heroku) et 
-Heroku seront considérées. Django va donc se réveiller avec une db 
-postgres vide et sans ses migrations.
+  - Dans l'image et le repo git, il n'y a pas de .env, ils sont exclus grâce aux fichiers 
+dockerignore et gitignore.
 
-Sinon, les variables seront lues par django-environ.
-
-  - Dans l'image, il n'y a pas de .env, ils sont exclus grâce au fichier 
-dockerignore, comme les migrations.
- Donc django-environ renverra exactement les mêmes valeurs que
-os.environ.get. Django va se réveiller avec une db postgres vide et sans
-ses migrations.
-  - Localement, les variables d'environnement seront complétées par celles du 
-.env et donc chercher son fichier sqlite3 et conserver son historique de 
-migrations.
-
-IMPORTANT: les .env sont destinés uniquement au développement local. 
+IMPORTANT : les .env sont destinés uniquement au développement local. 
 Ils ne doivent ni être copiés dans les images docker ni dans git.
 Deux fichiers sample.env contenant des valeurs indicatives les remplacent
 dans git.
 
 
-### Migration vers Postgres pendant la dockerisation
-Avant :
+### Migration vers Postgres avant la dockerisation
 Pour transférer les données de notre db SQLite locale vers notre nouvelle 
 base Postgres il faut avant tout effectuer un dumpdata vers un fichier 
-db.json encodé en uft-8 sans la table content_type.
+db.json encodé en uft-8 sans les tables content_type et auth.Permission:
 
-De plus, comme nous allons forcer Django à changer de backend, il est impératif 
-que ni SQLite3 ni les migrations ne soient copiés dans l'image docker.
+##### Dumpdata:
+    - `cd oc_lettings`
+    - `python -Xutf8 manage.py dumpdata --exclude=contenttypes --exclude=auth.Permission -o db.json`
 
-Dockerfile :
-Nous allons partir de l'image docker contenant un petit linux et python 3.10
-Pour notre bd Postgres nous avons besoin du client et de psycopg2.
+### Update Django
+La version d'origine est trop ancienne et génère une importante quantité de warnings.
+Apres l'ajout de la librairie "six" qui manquait, Django a été upgradé en Django==4.1.2.
+Cela nécessite quelques modifications dans settings.py:
 
-Nous installons les librairies C qui sont nécessaires à l'installation de 
-psycopg2 mais pas à notre appli dans un répertoire temporaire par la suite effacé.
-Il s'agit de postgresql-dev, musl-dev et linux-headers.
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CSRF_TRUSTED_ORIGINS = ['https://oc-lettings-oc.herokuapp.com']
 
-Pour finir il nous faut dans oc_lettings_site/management/commands une
-commande maison qui sera lancée lors du démarrage de nos conteneurs.
+C'est dans settings que le plus gros des modifications se trouvent.
 
-Cette commande va enchainer Collectstatic, Makemigration, Migrate et Loaddata.
-Usage : python manage.py init
+### Static files
+Nous utiliserons whitenoise pour servir les fichiers statiques.

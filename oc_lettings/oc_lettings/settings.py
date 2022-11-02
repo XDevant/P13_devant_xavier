@@ -93,13 +93,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'oc_lettings.wsgi.application'
 
-SSL = IS_HEROKU and "oc-lettings" not in os.environ.get("DATABASE_URL")
+SSL = True
+if "oc-lettings" in os.environ.get("POSTGRES_DB"):
+    SSL = True
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 DATABASES = {}
 
 DATABASES['default'] = dj_database_url.config(conn_max_age=600,
-                                              ssl_require=True)
+                                              ssl_require=SSL)
 
 """
     DATABASES = {
