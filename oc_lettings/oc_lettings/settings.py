@@ -96,12 +96,10 @@ WSGI_APPLICATION = 'oc_lettings.wsgi.application'
 SSL = IS_HEROKU and "oc-lettings" not in os.environ.get("DATABASE_URL")
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+DATABASES = {}
 
-DATABASES = {'default': dj_database_url.config(engine='django.db.backends.postgresql',
-                                               conn_max_age=600,
-                                               ssl_require=SSL),
-
-             }
+DATABASES['default'] = dj_database_url.config(conn_max_age=600,
+                                              ssl_require=True)
 
 """
     DATABASES = {
@@ -153,6 +151,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
 
 # Enable WhiteNoise's GZip compression of static assets.
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-# db_from_env = dj_database_url.config(conn_max_age=0, ssl_require=False)
-# django_heroku.settings(locals(), databases=False)
