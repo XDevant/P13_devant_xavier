@@ -24,7 +24,7 @@ RUN python -m venv /py && \
 EXPOSE $PORT
 
 ENV PATH=/py/bin:/etc/profile:$PATH
-ENV PYTHONPATH="./oc_lettings::$PYTHONPATH"
+ENV PYTHONPATH="./oc_lettings:$PYTHONPATH"
 
 USER app
 
