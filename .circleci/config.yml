@@ -30,7 +30,7 @@ jobs:
     docker:
       - image: cimg/python:3.10.8
         <<: *docker-auth
-        user: circleci
+        user: root
       - image: cimg/postgres:14.1
         <<: *docker-auth
         environment:
@@ -49,7 +49,8 @@ jobs:
           name: install & activate venv
           command:
             python -m venv venv &&\
-            sudo sh -c "echo '. venv/bin/activate' >> $BASH_ENV" &&\
+            which sudo &&\
+            /usr/bin/sudo sh -c "echo '. venv/bin/activate' >> $BASH_ENV" &&\
             pip install -r requirements/dev.txt
       - run:
           name: Init Bd
