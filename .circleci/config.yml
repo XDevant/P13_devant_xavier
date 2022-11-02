@@ -45,13 +45,9 @@ jobs:
           PORT: 5432
     steps:
       - checkout
-      - run:
-          name: install & activate venv
-          command:
-            python -m venv venv &&\
-            which sudo &&\
-            /usr/bin/sudo sh -c "echo '. venv/bin/activate' >> $BASH_ENV" &&\
-            pip install -r requirements/dev.txt
+      - run: python -m venv venv &&\
+             /usr/bin/sudo sh -c "echo '. venv/bin/activate' >> $BASH_ENV" &&\
+             pip install -r requirements/dev.txt
       - run:
           name: Init Bd
           command: python oc_lettings/manage.py init
