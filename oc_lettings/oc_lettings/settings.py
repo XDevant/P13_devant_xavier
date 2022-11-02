@@ -103,6 +103,9 @@ DATABASES = {}
 DATABASES['default'] = dj_database_url.config(conn_max_age=600,
                                               ssl_require=SSL)
 
+if os.environ.get("DATABASE_URL") and "circle_test" in os.environ.get("DATABASE_URL"):
+    DATABASES['default']["TEST"] = dj_database_url.config(conn_max_age=600,
+                                                          ssl_require=False)
 """
     DATABASES = {
         'default': {
