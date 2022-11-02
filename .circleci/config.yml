@@ -85,8 +85,10 @@ jobs:
         - run: sudo sh -c "echo 'export SENTRY_DNS=${SENTRY_DNS}' >> $BASH_ENV"
         - run: sudo sh -c "echo 'export SECRET_KEY=${SECRET_KEY}' >> $BASH_ENV"
         - run: docker compose -f docker-compose-prod.yaml up -d
-        # - run: docker compose -f docker-compose-prod.yaml exec app python manage.py
-        - run: docker compose -f docker-compose-prod.yaml exec app python -m pytest
+        - run: docker compose -f docker-compose-prod.yaml exec app python manage.py
+        - run: docker compose -f docker-compose-prod.yaml exec app python -m pytest --junitxml=test-results/junit.xml
+        - store_test_results:
+            path: .test-results/
 
   heroku_deploy:
     machine:
