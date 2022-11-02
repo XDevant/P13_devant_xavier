@@ -45,8 +45,8 @@ jobs:
           PORT: 5432
     steps:
       - checkout
-      - run: python -m venv ./py &&\
-             ./py/bin/activate &&\
+      - run: python -m venv /py &&\
+             /py/bin/activate &&\
              pip install -r requirements/dev.txt
       - run: python oc_lettings/manage.py init
       - run: python -m pytest oc_lettings
