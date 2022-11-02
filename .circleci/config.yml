@@ -24,7 +24,9 @@ jobs:
           pkg-manager: pip
       - run:
           name: Run tests
-          command: python -m pytest oc_lettings
+          command: python -m pytest oc_lettings --junitxml=test-results/junit.xml
+      - store_test_results:
+          path: .test-results/
 
   test:
     docker:
@@ -35,7 +37,6 @@ jobs:
           DEBUG: 1
           SENTRY_DNS: $SENTRY_DNS
           DATABASE_URL: "postgres://root@localhost:5432/circle_test?sslmode=disable"
-
       - image: cimg/postgres:14.1
         <<: *docker-auth
         environment:
@@ -44,9 +45,11 @@ jobs:
     steps:
       - checkout
       - python/install-packages:
-            pkg-manager: pip
+          pkg-manager: pip
       - run: python oc_lettings/manage.py init
-      - run: python -m pytest oc_lettings
+      - run: python -m pytest oc_lettings --junitxml=test-results/junit.xml
+      - store_test_results:
+          path: .test-results/
 
   lint:
     executor: python/default
@@ -129,6 +132,6 @@ workflows:
           filters:
             branches:
               only:
-                - main
+                - master
           requires:
             - compose_and_test
