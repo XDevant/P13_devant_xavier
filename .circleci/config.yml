@@ -31,18 +31,15 @@ jobs:
       - image: cimg/python:3.10.8
         <<: *docker-auth
         user: root
+        DEBUG: 1
+        SENTRY_DNS: $SENTRY_DNS
+        DATABASE_URL: "postgres://root@localhost:5432/circle_test?sslmode=disable"
+
       - image: cimg/postgres:14.1
         <<: *docker-auth
         environment:
-          BASH_ENV: /etc/profile
-          ENVPATH: /etc/environment
-          DEBUG: 1
-          SENTRY_DNS: $SENTRY_DNS
-          DATABASE_URL: "postgres://app:somemdp@localhost:5432/circle_test?sslmode=disable"
-          POSTGRES_USER: app
+          POSTGRES_USER: root
           POSTGRES_DB: circle_test
-          POSTGREST_PASSWORD: somemdp
-          PORT: 5432
     steps:
       - checkout
       - python/install-packages:
