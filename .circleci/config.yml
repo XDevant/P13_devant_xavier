@@ -49,8 +49,7 @@ jobs:
           name: install & activate venv
           command:
             python -m venv venv &&\
-            PATH = "/venv/bin:/etc/profile:/etc/environment:/usr/bin/:$PATH"
-            sudo sh -c "echo '. venv/bin/activate' >> $BASH_ENV" &&\
+            /etc/environment/sudo sh -c "echo '. venv/bin/activate' >> $BASH_ENV" &&\
             pip install -r requirements/dev.txt
       - run:
           name: Init Bd
