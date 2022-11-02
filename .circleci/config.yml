@@ -44,6 +44,9 @@ jobs:
         <<: *docker-auth
     steps:
       - checkout
+      - python/install-packages:
+            pkg-manager: pip
+      - run: echo "source /path/to/virtualenv/bin/activate" >> $BASH_ENV
       - run:
           name: Init Bd
           command: pwd && ls -l && python oc_lettings/manage.py init
