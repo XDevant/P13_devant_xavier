@@ -93,27 +93,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'oc_lettings.wsgi.application'
 
-SSL = True
-if os.environ.get("POSTGRES_DB") and "oc-lettings" in os.environ.get("POSTGRES_DB"):
-    SSL = False
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-DATABASES = {}
+
+# Heroku
+SSL = True
+# Local
+if os.environ.get("POSTGRES_DB") and "oc-lettings" in os.environ.get("POSTGRES_DB"):
+    SSL = False
+# Docker/CircleCI
+if os.environ.get("DATABASE_URL") and "circle_test" in os.environ.get("DATABASE_URL"):
+    SSL = False
+
+DATABASES = dict()
 
 DATABASES['default'] = dj_database_url.config(conn_max_age=600,
                                               ssl_require=SSL)
 
-if os.environ.get("DATABASE_URL") and "circle_test" in os.environ.get("DATABASE_URL"):
-    DATABASES['default']["TEST"] = dj_database_url.config(conn_max_age=600,
-                                                          ssl_require=False)
-"""
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'oc-lettings-site.sqlite3'),
-        }
-    }
-"""
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
