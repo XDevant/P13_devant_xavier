@@ -30,7 +30,7 @@ jobs:
     docker:
       - image: cimg/python:3.10.1
         <<: *docker-auth
-        user: root
+        user: circleci
       - image: cimg/postgres:14.1
         <<: *docker-auth
         environment:
@@ -45,7 +45,6 @@ jobs:
           PORT: 5432
     steps:
       - checkout
-      - run: which sudo
       - run:
           name: install & activate venv
           command:
