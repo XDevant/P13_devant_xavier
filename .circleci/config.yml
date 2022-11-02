@@ -45,7 +45,7 @@ jobs:
           PORT: 5432
     steps:
       - checkout
-      - run: apt-get install -y sudo
+      - run: which sudo
       - run:
           name: install & activate venv
           command:
