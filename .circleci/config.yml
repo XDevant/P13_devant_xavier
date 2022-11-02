@@ -46,14 +46,11 @@ jobs:
     steps:
       - checkout
       - run: python -m venv venv &&\
-             /usr/bin/sudo sh -c "echo '. venv/bin/activate' >> $BASH_ENV" &&\
+             apt-get install sudo &&\
+             sudo sh -c "echo '. venv/bin/activate' >> $BASH_ENV" &&\
              pip install -r requirements/dev.txt
-      - run:
-          name: Init Bd
-          command: python oc_lettings/manage.py init
-      - run:
-          name: Test
-          command: python -m pytest oc_lettings
+      - run: python oc_lettings/manage.py init
+      - run: python -m pytest oc_lettings
 
   lint:
     executor: python/default
