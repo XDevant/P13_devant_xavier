@@ -32,7 +32,7 @@ jobs:
         <<: *docker-auth
         environment:
           BASH_ENV: /etc/profile
-          PATH: /etc/environment
+          ENVPATH: /etc/environment
           DEBUG: 1
           SENTRY_DNS: $SENTRY_DNS
           DATABASE_URL: "postgres://app:somemdp@localhost:5432/circle_test?sslmode=disable"
@@ -46,9 +46,13 @@ jobs:
         <<: *docker-auth
     steps:
       - checkout
-      - run: /usr/bin/python -m venv venv &&\
-             sudo sh -c "echo '. venv/bin/activate' >> $BASH_ENV" &&\
-             pip install -r requirements/dev.txt
+      - run:
+          name: install & activate venv
+          command:
+            export PATH=$BASH_ENV:ENVPATH:$PATH &&\
+            python -m venv venv &&\
+            sudo sh -c "echo '. venv/bin/activate' >> $BASH_ENV" &&\
+            pip install -r requirements/dev.txt
       - run:
           name: Init Bd
           command: python oc_lettings/manage.py init
