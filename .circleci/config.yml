@@ -36,6 +36,7 @@ jobs:
           SENTRY_DNS: $SENTRY_DNS
           DATABASE_URL: "postgres://app:somemdp@localhost:5432/circle_test?sslmode=disable"
           USE_DOCKER: no
+          PATH: venv/bin:/etc/profile:$PATH
       - image: cimg/postgres:14.1
         environment:
           POSTGRES_USER: app
