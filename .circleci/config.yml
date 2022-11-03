@@ -68,7 +68,16 @@ jobs:
         - checkout
         - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
         - run: docker build -t xevan/oc-lettings-repo:$CIRCLE_SHA1 .
-        - run: docker push xevan/oc-lettings-repo:$CIRCLE_SHA1:latest
+        - run: docker push xevan/oc-lettings-repo:$CIRCLE_SHA1
+
+  test_build:
+    machine:
+      image: ubuntu-2204:2022.04.2
+    steps:
+      - checkout
+      - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
+      - run: docker build -t xevan/oc-lettings-repo:$CIRCLE_SHA1 -t xevan/oc-lettings-repo:latest .
+      - run: docker push xevan/oc-lettings-repo:$CIRCLE_SHA1
 
   compose_and_test:
     machine:
@@ -142,4 +151,4 @@ workflows:
         filters:
           branches:
             only:
-              - test
+              - test_build
