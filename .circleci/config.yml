@@ -137,7 +137,8 @@ workflows:
             - compose_and_test
 
   test:
-    - build:
+    jobs:
+      - build:
         filters:
           branches:
             only:
