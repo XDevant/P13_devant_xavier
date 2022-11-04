@@ -67,7 +67,7 @@ jobs:
     steps:
         - checkout
         - run: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
-        - run: docker build -t xevan/oc-lettings-repo:$CIRCLE_SHA1 -t xevan/oc-lettings-repo:$latest .
+        - run: docker build -t xevan/oc-lettings-repo:$CIRCLE_SHA1 -t xevan/oc-lettings-repo:latest .
         - run: docker push xevan/oc-lettings-repo
 
   compose_and_test:
