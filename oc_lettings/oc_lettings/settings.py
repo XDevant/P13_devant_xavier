@@ -45,7 +45,7 @@ DEBUG = bool(int(os.environ.get('DEBUG', '1')))
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 if IS_HEROKU:
-    DEBUG = False
+    DEBUG = True
     ALLOWED_HOSTS = ['localhost', 'oc-lettings-oc.herokuapp.com', '*']
 
 # Application definition
